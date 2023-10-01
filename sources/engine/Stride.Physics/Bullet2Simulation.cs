@@ -13,7 +13,7 @@ using static BulletSharp.UnsafeNativeMethods;
 
 namespace Stride.Physics
 {
-    public class Simulation : IDisposable
+    public class Bullet2Simulation : IDisposable
     {
         const CollisionFilterGroups DefaultGroup = (CollisionFilterGroups)BulletSharp.CollisionFilterGroups.DefaultFilter;
         const CollisionFilterGroupFlags DefaultFlags = (CollisionFilterGroupFlags)BulletSharp.CollisionFilterGroups.AllFilter;
@@ -40,7 +40,7 @@ namespace Stride.Physics
         private float carriedDelta;
 
 #if DEBUG
-        private static readonly Logger Log = GlobalLogger.GetLogger(typeof(Simulation).FullName);
+        private static readonly Logger Log = GlobalLogger.GetLogger(typeof(Bullet2Simulation).FullName);
 #endif
 
         public bool ContinuousCollisionDetection
@@ -72,7 +72,7 @@ namespace Stride.Physics
 
         public delegate PhysicsEngineFlags OnSimulationCreationDelegate();
 
-        public delegate void SimulationTickEvent(Simulation sender, float tick);
+        public delegate void SimulationTickEvent(Bullet2Simulation sender, float tick);
 
         /// <summary>
         /// Temporary solution to inject engine flags
@@ -85,7 +85,7 @@ namespace Stride.Physics
         /// <param name="processor"></param>
         /// <param name="configuration"></param>
         /// <exception cref="System.NotImplementedException">SoftBody processing is not yet available</exception>
-        internal Simulation(PhysicsProcessor processor, PhysicsSettings configuration)
+        internal Bullet2Simulation(PhysicsProcessor processor, PhysicsSettings configuration)
         {
             this.processor = processor;
 
@@ -1133,7 +1133,7 @@ namespace Stride.Physics
 
         /// <summary>
         /// Called right before processing a tick of the physics simulation,
-        /// this may never occur before many updates, or occur multiple times between updates depending on this <see cref="Simulation"/> properties
+        /// this may never occur before many updates, or occur multiple times between updates depending on this <see cref="Bullet2Simulation"/> properties
         /// </summary>
         public event SimulationTickEvent PreTick
         {
@@ -1151,7 +1151,7 @@ namespace Stride.Physics
 
         /// <summary>
         /// Called right after processing a tick of the physics simulation,
-        /// this may never occur before many updates, or occur multiple times between updates depending on this <see cref="Simulation"/> properties
+        /// this may never occur before many updates, or occur multiple times between updates depending on this <see cref="Bullet2Simulation"/> properties
         /// </summary>
         public event SimulationTickEvent PostTick
         {

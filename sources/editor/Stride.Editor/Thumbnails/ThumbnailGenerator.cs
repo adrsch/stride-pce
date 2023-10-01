@@ -118,12 +118,12 @@ namespace Stride.Editor.Thumbnails
             var uiSystem = new UISystem(Services);
             Services.AddService(uiSystem);
 
-            var physicsSystem = new Bullet2PhysicsSystem(Services);
+            var physicsSystem = new BepuPhysicsSystem(Services);
             Services.AddService<IPhysicsSystem>(physicsSystem);
 
             gameSystems = new GameSystemCollection(Services) { fontSystem, uiSystem, physicsSystem };
             Services.AddService<IGameSystemCollection>(gameSystems);
-            Simulation.DisableSimulation = true; //make sure we do not simulate physics within the editor
+            Bullet2Simulation.DisableSimulation = true; //make sure we do not simulate physics within the editor
 
             // initialize base services
             gameSystems.Initialize();

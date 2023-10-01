@@ -86,7 +86,7 @@ namespace Stride.Games
             isMouseVisible = true;
 
             // Externals
-            Services = new ServiceRegistry();
+            Services = new ServiceRegistry(true);
 
             // Database file provider
             Services.AddService<IDatabaseFileProviderService>(new DatabaseFileProviderService(null));

@@ -25,6 +25,8 @@ namespace Stride.Engine
     {
         // TODO: Make this class threadsafe (current locks aren't sufficients)
 
+        public static bool onlyBepu;
+
         public ExecutionMode ExecutionMode { get; protected set; } = ExecutionMode.Runtime;
 
         // List of all entities, with their respective processors
@@ -628,6 +630,10 @@ namespace Stride.Engine
                 if (processor == null) throw new ArgumentNullException(nameof(processor));
                 if (!Contains(processor))
                 {
+                    //phr00t
+                    if (onlyBepu && processor.MainTypeName == "PhysicsComponent")
+                        return; // don't use Bullet physics, bepu only!
+
                     base.AddItem(processor);
                     manager.OnProcessorAdded(processor);
                 }

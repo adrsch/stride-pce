@@ -26,7 +26,7 @@ namespace Stride.Physics
         private readonly List<PhysicsSkinnedComponentBase> boneElements = new List<PhysicsSkinnedComponentBase>();
         private readonly List<CharacterComponent> characters = new List<CharacterComponent>();
 
-        private Bullet2PhysicsSystem physicsSystem;
+        private BepuPhysicsSystem physicsSystem;
         private Scene parentScene;
         private Scene debugScene;
 
@@ -68,7 +68,7 @@ namespace Stride.Physics
             }
         }
 
-        public Simulation Simulation { get; private set; }
+        public Bullet2Simulation Simulation { get; private set; }
 
         internal void RenderColliderShapes(bool enabled)
         {
@@ -191,10 +191,10 @@ namespace Stride.Physics
 
         protected override void OnSystemAdd()
         {
-            physicsSystem = (Bullet2PhysicsSystem)Services.GetService<IPhysicsSystem>();
+            physicsSystem = (BepuPhysicsSystem)Services.GetService<IPhysicsSystem>();
             if (physicsSystem == null)
             {
-                physicsSystem = new Bullet2PhysicsSystem(Services);
+                physicsSystem = new BepuPhysicsSystem(Services);
                 Services.AddService<IPhysicsSystem>(physicsSystem);
                 var gameSystems = Services.GetSafeServiceAs<IGameSystemCollection>();
                 gameSystems.Add(physicsSystem);
@@ -210,7 +210,7 @@ namespace Stride.Physics
                 gameSystems.Add(debugShapeRendering);
             }
 
-            Simulation = physicsSystem.Create(this);
+            Simulation = physicsSystem.CreateBullet(this);
 
             parentScene = Services.GetSafeServiceAs<SceneSystem>()?.SceneInstance?.RootScene;
         }
@@ -250,7 +250,7 @@ namespace Stride.Physics
 
         public override void Draw(RenderContext context)
         {
-            if (Simulation.DisableSimulation) return;
+            if (Bullet2Simulation.DisableSimulation) return;
 
             foreach (var element in boneElements)
             {

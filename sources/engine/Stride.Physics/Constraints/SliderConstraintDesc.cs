@@ -66,8 +66,8 @@ namespace Stride.Physics.Constraints
             var frameB = Matrix.RotationQuaternion(AxisInB) * Matrix.Translation(PivotInB);
             
             var slider = (bodyB == null
-                ? Simulation.CreateConstraint(ConstraintTypes.Slider, bodyA, frameA, UseLinearReferenceFrameA)
-                : Simulation.CreateConstraint(ConstraintTypes.Slider, bodyA, bodyB, frameA, frameB, UseLinearReferenceFrameA)
+                ? Bullet2Simulation.CreateConstraint(ConstraintTypes.Slider, bodyA, frameA, UseLinearReferenceFrameA)
+                : Bullet2Simulation.CreateConstraint(ConstraintTypes.Slider, bodyA, bodyB, frameA, frameB, UseLinearReferenceFrameA)
                 ) as SliderConstraint;
 
             slider.LowerLinearLimit = Limit.LowerLinearLimit;

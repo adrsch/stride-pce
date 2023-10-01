@@ -5,6 +5,6 @@ namespace Stride.Physics
 {
     public interface IRelative
     {
-        Simulation Simulation { get; }
+        Bullet2Simulation Simulation { get; }
     }
 }

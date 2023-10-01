@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Stride.Engine;
+using Stride.Physics.Bepu;
 
 namespace Stride.Physics
 {
@@ -11,13 +12,14 @@ namespace Stride.Physics
     public static class PhysicsScriptComponentExtensions
     {
         /// <summary>
-        /// Gets the curent <see cref="Simulation"/>.
+        /// Gets the curent <see cref="Bullet2Simulation"/>.
         /// </summary>
         /// <param name="scriptComponent">The script component to query physics from</param>
         /// <returns>The simulation object or null if there are no simulation running for the current scene.</returns>
-        public static Simulation GetSimulation(this ScriptComponent scriptComponent)
+        public static Bullet2Simulation GetBullet2Simulation(this ScriptComponent scriptComponent)
         {
             return scriptComponent.SceneSystem.SceneInstance.GetProcessor<PhysicsProcessor>()?.Simulation;
         }
+
     }
 }

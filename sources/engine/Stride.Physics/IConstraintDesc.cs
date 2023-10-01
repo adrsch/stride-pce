@@ -34,8 +34,8 @@ namespace Stride.Physics
         /// <param name="rigidbodyA">Rigidbody A.</param>
         /// <param name="rigidbodyB">Rigidbody B (may be null).</param>
         /// <returns>
-        /// A new constraint constructed in the <see cref="Simulation"/>.
-        /// Needs to be added with <see cref="Simulation.AddConstraint(Constraint)"/> to take effect.
+        /// A new constraint constructed in the <see cref="Bullet2Simulation"/>.
+        /// Needs to be added with <see cref="Bullet2Simulation.AddConstraint(Constraint)"/> to take effect.
         /// </returns>
         Constraint Build(RigidbodyComponent rigidbodyA, RigidbodyComponent rigidbodyB);
     }

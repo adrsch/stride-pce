@@ -251,6 +251,20 @@ namespace Stride.Physics
 
             KinematicCharacter.SetWalkDirection(velocity * Simulation.FixedTimeStep);
         }
+        public void SetWalkDirection(Vector3 velocity)
+        {
+            if (KinematicCharacter == null)
+            {
+                throw new InvalidOperationException("Attempted to call a Physics function that is available only when the Entity has been already added to the Scene.");
+            }
+
+            KinematicCharacter.SetWalkDirection(velocity);
+        }
+
+        public void SetVerticalVelocity(float v, bool grounded)
+        {
+            KinematicCharacter.SetVerticalVelocity(v, grounded);
+        }
 
         /// <summary>
         /// Sets or gets the orientation of the Entity attached to this character controller
@@ -261,6 +275,8 @@ namespace Stride.Physics
 
         [DataMemberIgnore]
         internal BulletSharp.KinematicCharacterController KinematicCharacter;
+
+        public void SetVelocityUpdater(BulletSharp.IVelocityUpdater velocityUpdater) => KinematicCharacter?.SetVelocityUpdater(velocityUpdater);
 
         protected override void OnAttach()
         {

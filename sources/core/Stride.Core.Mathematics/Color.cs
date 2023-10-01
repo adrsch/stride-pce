@@ -742,6 +742,17 @@ namespace Stride.Core.Mathematics
             return result;
         }
 
+        //https://archive.org/details/game-programming-gems-4/mode/2up
+        public static Color SmoothCD(Color cur, Color targ, ref Color velocity, float smoothTime, float dt)
+        {
+            var rgbV = velocity.ToVector3();
+            var aV = (float)velocity.A;
+            var rgb = Vector3.SmoothCD(cur.ToVector3(), targ.ToVector3(), ref rgbV, smoothTime, dt);
+            var a = MathUtil.SmoothCD(cur.A, targ.A, ref aV, smoothTime, dt);
+            velocity = new Color(rgbV.X, rgbV.Y, rgbV.Z, aV);
+            return new Color(rgb.X, rgb.Y, rgb.Z, a);
+        }
+
         /// <summary>
         /// Returns a color containing the smallest components of the specified colors.
         /// </summary>

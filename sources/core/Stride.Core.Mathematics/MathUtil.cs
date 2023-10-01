@@ -431,29 +431,8 @@ namespace Stride.Core.Mathematics
             vel = (vel - omega * temp) * exp;
             return to + (change + temp) * exp;
         }
-        public static Vector3 SmoothCD(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt)
-        {
-            var tempX = vel.X;
-            var tempY = vel.Y;
-            var tempZ = vel.Z;
-            var res = new Vector3(
-               SmoothCD(from.X, to.X, ref tempX, smoothTime, dt),
-               SmoothCD(from.Y, to.Y, ref tempY, smoothTime, dt),
-               SmoothCD(from.Z, to.Z, ref tempZ, smoothTime, dt)
-               );
-
-            vel = new Vector3(tempX, tempY, tempZ);
-            return res;
-        }
-        public static Color SmoothCD(Color cur, Color targ, ref Color velocity, float smoothTime, float dt)
-        {
-            var rgbV = velocity.ToVector3();
-            var aV = (float)velocity.A;
-            var rgb = SmoothCD(cur.ToVector3(), targ.ToVector3(), ref rgbV, smoothTime, dt);
-            var a = SmoothCD(cur.A, targ.A, ref aV, smoothTime, dt);
-            velocity = new Color(rgbV.X, rgbV.Y, rgbV.Z, aV);
-            return new Color(rgb.X, rgb.Y, rgb.Z, a);
-        }
+        public static Vector3 SmoothCD(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt) => Vector3.SmoothCD(from, to, ref vel, smoothTime, dt);
+        public static Color SmoothCD(Color cur, Color targ, ref Color velocity, float smoothTime, float dt) => Color.SmoothCD(cur, targ, ref velocity, smoothTime, dt);
 
         /// <summary>
         /// Determines whether the value is inside the given range (inclusively).

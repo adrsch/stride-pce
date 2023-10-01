@@ -1067,6 +1067,123 @@ namespace Stride.Core.Mathematics
             RotationYawPitchRoll(yaw, pitch, roll, out result);
             return result;
         }
+        /// <summary>
+        /// phr00t
+        /// Generates a Quaternion that "looks at" the direction. Uses (0,1,0) as up.
+        /// </summary>
+        /// <param name="use">Quaternion to store the result</param>
+        /// <param name="direction">Direction to look in</param>
+        /// <returns>Returns the referenced use quaternion</returns>
+        public static Quaternion LookAt(ref Quaternion use, Vector3 direction)
+        {
+            // inline normalize (also flip for handedness)
+            float length = direction.X * direction.X + direction.Y * direction.Y + direction.Z * direction.Z;
+            if (length != 1f && length != 0f)
+            {
+                length = 1.0f / (float)Math.Sqrt(length);
+                direction.X *= -length;
+                direction.Y *= -length;
+                direction.Z *= -length;
+            }
+            else
+            {
+                direction.X = -direction.X;
+                direction.Y = -direction.Y;
+                direction.Z = -direction.Z;
+            }
+            Vector3 fla_vect1;
+            fla_vect1.X = 0;
+            fla_vect1.Y = 1;
+            fla_vect1.Z = 0;
+            float tempx = (fla_vect1.Y * direction.Z) - (fla_vect1.Z * direction.Y);
+            float tempy = (fla_vect1.Z * direction.X) - (fla_vect1.X * direction.Z);
+            fla_vect1.Z = (fla_vect1.X * direction.Y) - (fla_vect1.Y * direction.X);
+            fla_vect1.X = tempx;
+            fla_vect1.Y = tempy;
+            // inline normalize
+            length = fla_vect1.X * fla_vect1.X + fla_vect1.Y * fla_vect1.Y + fla_vect1.Z * fla_vect1.Z;
+            if (length != 1f && length != 0f)
+            {
+                length = 1.0f / (float)Math.Sqrt(length);
+                fla_vect1.X *= length;
+                fla_vect1.Y *= length;
+                fla_vect1.Z *= length;
+            }
+            Vector3 fla_vect2;
+            fla_vect2.X = direction.X;
+            fla_vect2.Y = direction.Y;
+            fla_vect2.Z = direction.Z;
+            //vect2.crossLocal(vect1);
+            tempx = (fla_vect2.Y * fla_vect1.Z) - (fla_vect2.Z * fla_vect1.Y);
+            tempy = (fla_vect2.Z * fla_vect1.X) - (fla_vect2.X * fla_vect1.Z);
+            fla_vect2.Z = (fla_vect2.X * fla_vect1.Y) - (fla_vect2.Y * fla_vect1.X);
+            fla_vect2.X = tempx;
+            fla_vect2.Y = tempy;
+            // inline normalize
+            length = fla_vect2.X * fla_vect2.X + fla_vect2.Y * fla_vect2.Y + fla_vect2.Z * fla_vect2.Z;
+            if (length != 1f && length != 0f)
+            {
+                length = 1.0f / (float)Math.Sqrt(length);
+                fla_vect2.X *= length;
+                fla_vect2.Y *= length;
+                fla_vect2.Z *= length;
+            }
+            //use.fromRotationMatrix(vect1.X, vect2.X, vect3.X, vect1.Y, vect2.Y,
+            //        vect3.Y, vect1.Z, vect2.Z, vect3.Z).normalizeLocal();
+            //float m00, float m01, float m02,
+            //    float m10, float m11, float m12,
+            //    float m20, float m21, float m22
+
+            float t = fla_vect1.X + fla_vect2.Y + direction.Z, w, x, y, z;
+            // we protect the division by s by ensuring that s>=1
+            if (t >= 0)
+            { // |w| >= .5
+                float s = (float)Math.Sqrt(t + 1); // |s|>=1 ...
+                w = 0.5f * s;
+                s = 0.5f / s;                 // so this division isn't bad
+                x = (fla_vect2.Z - direction.Y) * s;
+                y = (direction.X - fla_vect1.Z) * s;
+                z = (fla_vect1.Y - fla_vect2.X) * s;
+            }
+            else if ((fla_vect1.X > fla_vect2.Y) && (fla_vect1.X > direction.Z))
+            {
+                float s = (float)Math.Sqrt(1.0f + fla_vect1.X - fla_vect2.Y - direction.Z); // |s|>=1
+                x = s * 0.5f; // |x| >= .5
+                s = 0.5f / s;
+                y = (fla_vect1.Y + fla_vect2.X) * s;
+                z = (direction.X + fla_vect1.Z) * s;
+                w = (fla_vect2.Z - direction.Y) * s;
+            }
+            else if (fla_vect2.Y > direction.Z)
+            {
+                float s = (float)Math.Sqrt(1.0f + fla_vect2.Y - fla_vect1.X - direction.Z); // |s|>=1
+                y = s * 0.5f; // |y| >= .5
+                s = 0.5f / s;
+                x = (fla_vect1.Y + fla_vect2.X) * s;
+                z = (fla_vect2.Z + direction.Y) * s;
+                w = (direction.X - fla_vect1.Z) * s;
+            }
+            else
+            {
+                float s = (float)Math.Sqrt(1.0f + direction.Z - fla_vect1.X - fla_vect2.Y); // |s|>=1
+                z = s * 0.5f; // |z| >= .5
+                s = 0.5f / s;
+                x = (direction.X + fla_vect1.Z) * s;
+                y = (fla_vect2.Z + direction.Y) * s;
+                w = (fla_vect1.Y - fla_vect2.X) * s;
+            }
+            float norm = w * w + x * x + y * y + z * z;
+            float n = (float)(1.0f / Math.Sqrt(norm));
+            w *= n;
+            x *= n;
+            y *= n;
+            z *= n;
+            use.X = x;
+            use.Y = y;
+            use.Z = z;
+            use.W = w;
+            return use;
+        }
 
         /// <summary>
         /// Computes a quaternion corresponding to the rotation transforming the vector <paramref name="source"/> to the vector <paramref name="target"/>.

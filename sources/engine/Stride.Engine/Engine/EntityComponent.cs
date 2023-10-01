@@ -25,6 +25,10 @@ namespace Stride.Engine
         [DataMemberIgnore]
         public Entity Entity { get; internal set; }
 
+
+        [DataMemberIgnore]
+        public TransformComponent Transform => Entity.Transform;
+
         /// <summary>
         /// The unique identifier of this component.
         /// </summary>

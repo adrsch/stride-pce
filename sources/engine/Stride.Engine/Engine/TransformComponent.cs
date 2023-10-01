@@ -81,6 +81,59 @@ namespace Stride.Engine
         [DataMember(30)]
         public Vector3 Scale;
 
+
+        public Vector3 Forward => Transform.WorldMatrix.Forward;
+        public Vector3 Back => Transform.WorldMatrix.Backward;
+        public Vector3 Up => Transform.WorldMatrix.Up;
+        public Vector3 Down => Transform.WorldMatrix.Down;
+        public Vector3 Left => Transform.WorldMatrix.Left;
+        public Vector3 Right => Transform.WorldMatrix.Right;
+
+        /// <summary>
+        /// phr00t
+        /// Gets the world position.
+        /// Default call does not recalcuate the position. It just gets the last frame's position quickly.
+        /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date position.
+        /// </summary>
+        public Vector3 WorldPosition(bool recalculate = false)
+        {
+            if (recalculate) UpdateWorldMatrix(true, false);
+            return parent == null ? Position : WorldMatrix.TranslationVector;
+        }
+
+        /// <summary>
+        /// phr00t
+        /// Gets the world scale.
+        /// Default call does not recalcuate the scale. It just gets the last frame's scale quickly.
+        /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date scale.
+        /// </summary>
+        public Vector3 WorldScale(bool recalculate = false)
+        {
+            if (recalculate) UpdateWorldMatrix(true, false);
+            if (parent == null) return Scale;
+            WorldMatrix.GetScale(out Vector3 scale);
+            return scale;
+        }
+
+        /// <summary>
+        /// phr00t
+        /// Gets the world rotation.
+        /// Default call does not recalcuate the rotation. It just gets the last frame's rotation (relatively) quickly.
+        /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date rotation.
+        /// </summary>
+        public Quaternion WorldRotation(bool recalculate = false)
+        {
+            if (recalculate) UpdateWorldMatrix(true, false);
+            if (parent != null && WorldMatrix.GetRotationQuaternion(out Quaternion q))
+            {
+                return q;
+            }
+            else
+            {
+                return Rotation;
+            }
+        }
+
         [DataMemberIgnore]
         public TransformLink TransformLink;
 
@@ -294,17 +347,19 @@ namespace Stride.Engine
         }
 
         /// <summary>
+        //phr00t
         /// Updates the world matrix.
         /// It will first call <see cref="UpdateLocalMatrix"/> on self, and <see cref="UpdateWorldMatrix"/> on <see cref="Parent"/> if not null.
         /// Then <see cref="WorldMatrix"/> will be updated by multiplying <see cref="LocalMatrix"/> and parent <see cref="WorldMatrix"/> (if any).
         /// </summary>
-        public void UpdateWorldMatrix()
+        public void UpdateWorldMatrix(bool recursive = true, bool postProcess = true)
         {
             UpdateLocalMatrix();
-            UpdateWorldMatrixInternal(true);
+            UpdateWorldMatrixInternal(recursive, postProcess);
         }
 
-        internal void UpdateWorldMatrixInternal(bool recursive)
+        //phr00t
+        public void UpdateWorldMatrixInternal(bool recursive, bool postProcess = true)
         {
             if (TransformLink != null)
             {
@@ -315,7 +370,7 @@ namespace Stride.Engine
             else if (Parent != null)
             {
                 if (recursive)
-                    Parent.UpdateWorldMatrix();
+                    Parent.UpdateWorldMatrix(true, postProcess);
                 Matrix.Multiply(ref LocalMatrix, ref Parent.WorldMatrix, out WorldMatrix);
             }
             else
@@ -335,10 +390,12 @@ namespace Stride.Engine
                     WorldMatrix = LocalMatrix;
                 }
             }
-
-            foreach (var transformOperation in PostOperations)
+            if (postProcess)
             {
-                transformOperation.Process(this);
+                foreach (var transformOperation in PostOperations)
+                {
+                    transformOperation.Process(this);
+                }
             }
         }
 

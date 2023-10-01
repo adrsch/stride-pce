@@ -67,6 +67,9 @@ namespace Stride.Core.Mathematics
         /// </summary>
         public const float PiOverFour = (float)(Math.PI / 4);
 
+        public const float Deg2Rad = 0.0174533f;
+        public const float Rad2Deg = 57.2958f;
+
         /// <summary>
         /// Checks if a and b are almost equals, taking into account the magnitude of floating point numbers (unlike <see cref="WithinEpsilon"/> method). See Remarks.
         /// See remarks.
@@ -271,6 +274,11 @@ namespace Stride.Core.Mathematics
             return radian * (180.0f / Pi);
         }
 
+        public static float Clamp01(float value)
+        {
+            return Clamp(value, 0.0f, 1.0f);
+        }
+
         /// <summary>
         /// Clamps the specified value.
         /// </summary>
@@ -409,6 +417,42 @@ namespace Stride.Core.Mathematics
             return (amount <= 0) ? 0
                 : (amount >= 1) ? 1
                 : amount * amount * amount * (amount * ((amount * 6) - 15) + 10);
+        }
+
+        //https://archive.org/details/game-programming-gems-4/mode/2up
+        public static float SmoothCD(float from, float to, ref float vel, float smoothTime, float dt)
+        {
+            float omega = 2f / smoothTime;
+
+            float x = omega * dt;
+            float exp = 1f / (1f + x + 0.48f * x * x + 0.235f * x * x * x);
+            float change = from - to;
+            float temp = (vel + omega * change) * dt;
+            vel = (vel - omega * temp) * exp;
+            return to + (change + temp) * exp;
+        }
+        public static Vector3 SmoothCD(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt)
+        {
+            var tempX = vel.X;
+            var tempY = vel.Y;
+            var tempZ = vel.Z;
+            var res = new Vector3(
+               SmoothCD(from.X, to.X, ref tempX, smoothTime, dt),
+               SmoothCD(from.Y, to.Y, ref tempY, smoothTime, dt),
+               SmoothCD(from.Z, to.Z, ref tempZ, smoothTime, dt)
+               );
+
+            vel = new Vector3(tempX, tempY, tempZ);
+            return res;
+        }
+        public static Color SmoothCD(Color cur, Color targ, ref Color velocity, float smoothTime, float dt)
+        {
+            var rgbV = velocity.ToVector3();
+            var aV = (float)velocity.A;
+            var rgb = SmoothCD(cur.ToVector3(), targ.ToVector3(), ref rgbV, smoothTime, dt);
+            var a = SmoothCD(cur.A, targ.A, ref aV, smoothTime, dt);
+            velocity = new Color(rgbV.X, rgbV.Y, rgbV.Z, aV);
+            return new Color(rgb.X, rgb.Y, rgb.Z, a);
         }
 
         /// <summary>

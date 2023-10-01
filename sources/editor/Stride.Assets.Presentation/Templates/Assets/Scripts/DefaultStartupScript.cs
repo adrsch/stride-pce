@@ -7,7 +7,7 @@ using Stride.Core.Mathematics;
 using Stride.Input;
 using Stride.Engine;
 
-namespace ##Namespace##
+namespace PCE
 {
     public class ##Scriptname## : StartupScript
     {

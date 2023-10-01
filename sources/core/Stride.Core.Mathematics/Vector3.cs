@@ -71,6 +71,16 @@ namespace Stride.Core.Mathematics
         /// </summary>
         public static readonly Vector3 One = new Vector3(1.0f, 1.0f, 1.0f);
 
+        public static readonly Vector3 right = new Vector3(1.0f, 0.0f, 0.0f);
+        public static readonly Vector3 up = new Vector3(0.0f, 1.0f, 0.0f);
+        public static readonly Vector3 forward = new Vector3(0.0f, 0.0f, 1.0f);
+        public static readonly Vector3 left = new Vector3(-1.0f, 0.0f, 0.0f);
+        public static readonly Vector3 down = new Vector3(0.0f, -1.0f, 0.0f);
+        public static readonly Vector3 back = new Vector3(0.0f, 0.0f, -1.0f);
+
+        public static readonly Vector3 zero = new Vector3();
+        public static readonly Vector3 one = new Vector3(1.0f, 1.0f, 1.0f);
+
         /// <summary>
         /// The X component of the vector.
         /// </summary>
@@ -88,6 +98,15 @@ namespace Stride.Core.Mathematics
         /// </summary>
         [DataMember(2)]
         public float Z;
+
+        [DataMemberIgnore]
+        public float x { get => X; set => X = value; }
+        [DataMemberIgnore]
+        public float y { get => Y; set => Y = value; }
+        [DataMemberIgnore]
+        public float z { get => Z; set => Z = value; }
+
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Stride.Core.Mathematics.Vector3"/> struct.
@@ -226,6 +245,28 @@ namespace Stride.Core.Mathematics
                 Y *= inv;
                 Z *= inv;
             }
+        }
+
+        public Vector3 Normalized
+        {
+            get
+            {
+                float length = Length();
+                if (length > MathUtil.ZeroTolerance)
+                {
+                    float inv = 1.0f / length;
+                    return new Vector3(X * inv, Y * inv, Z * inv);
+                }
+                return new Vector3(X, Y, Z);
+            }
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float Angle(Vector3 u)
+        {
+            var angleInRadians = MathF.Acos(Vector3.Dot(this, u) / (this.Length() * u.Length()));
+            return angleInRadians * MathUtil.Rad2Deg;
         }
 
         /// <summary>

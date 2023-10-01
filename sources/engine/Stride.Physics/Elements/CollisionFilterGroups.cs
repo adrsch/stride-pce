@@ -39,43 +39,51 @@ namespace Stride.Physics
 
         CustomFilter10 = 0x8000,
 
+        InteractiveFilter = 1 << 17,
+        AIFilter = 1 << 18,
+        ProjectileFilter = 1 << 19,
+
         AllFilter = 0xFFFF,
     }
 
     [Flags]
     public enum CollisionFilterGroupFlags
     {
-        DefaultFilter = 0x1,
+        DefaultFilter = 1,
 
-        StaticFilter = 0x2,
+        StaticFilter = 1 << 1,
 
-        KinematicFilter = 0x4,
+        KinematicFilter = 1 << 3,
 
-        DebrisFilter = 0x8,
+        DebrisFilter = 1 << 4,
 
-        SensorTrigger = 0x10,
+        SensorTrigger = 1 << 5,
 
-        CharacterFilter = 0x20,
+        CharacterFilter = 1 << 6,
 
-        CustomFilter1 = 0x40,
+        CustomFilter1 = 1 << 7,
 
-        CustomFilter2 = 0x80,
+        CustomFilter2 = 1 << 8,
 
-        CustomFilter3 = 0x100,
+        CustomFilter3 = 1 << 9,
 
-        CustomFilter4 = 0x200,
+        CustomFilter4 = 1 << 10,
 
-        CustomFilter5 = 0x400,
+        CustomFilter5 = 1 << 11,
 
-        CustomFilter6 = 0x800,
+        CustomFilter6 = 1 << 12,
 
-        CustomFilter7 = 0x1000,
+        CustomFilter7 = 1 << 13,
 
-        CustomFilter8 = 0x2000,
+        CustomFilter8 = 1 << 14,
 
-        CustomFilter9 = 0x4000,
+        CustomFilter9 = 1 << 15,
 
-        CustomFilter10 = 0x8000,
+        CustomFilter10 = 1 << 16,
+
+        InteractiveFilter = 1 << 17,
+        AIFilter = 1 << 18,
+        ProjectileFilter = 1 << 19,
 
         AllFilter = 0xFFFF,
     }

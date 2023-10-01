@@ -18,7 +18,7 @@ namespace Stride.GameStudio
         public static string CopyrightText2 => "© 2011-2018 Silicon Studio Corp.";
 
         [NotNull]
-        public static string EditorName => $"Stride Game Studio {EditorVersion} ({RuntimeInformation.FrameworkDescription})";
+        public static string EditorName => $"Xenko Game Studio {EditorVersion} ({RuntimeInformation.FrameworkDescription})";
 
         [NotNull]
         public static string EditorVersion => StrideVersion.NuGetVersion;

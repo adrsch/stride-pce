@@ -141,7 +141,7 @@ namespace Stride.Navigation.Tests
                 // Allow a very simple inertia to the character to make animation transitions more fluid
                 moveDirection = direction * moveSpeed * cornerSpeedMultiply * 0.15f;
 
-                Character.SetVelocity(moveDirection * Speed);
+          //      Character.SetVelocity(moveDirection * Speed);
             }
             else
             {
@@ -201,7 +201,7 @@ namespace Stride.Navigation.Tests
         private void HaltMovement()
         {
             moveDirection = Vector3.Zero;
-            Character.SetVelocity(Vector3.Zero);
+          //  Character.SetVelocity(Vector3.Zero);
             moveDestination = Entity.Transform.WorldMatrix.TranslationVector;
         }
 

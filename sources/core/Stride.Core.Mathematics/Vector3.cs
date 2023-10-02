@@ -216,6 +216,7 @@ namespace Stride.Core.Mathematics
         {
             return MathF.Sqrt((X * X) + (Y * Y) + (Z * Z));
         }
+        public readonly float Magnitude => Length();
 
         /// <summary>
         /// Calculates the squared length of the vector.
@@ -247,25 +248,36 @@ namespace Stride.Core.Mathematics
             }
         }
 
-        public Vector3 Normalized
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+         Vector3 _normalized()
         {
-            get
+            float length = Length();
+            if (length > MathUtil.ZeroTolerance)
             {
-                float length = Length();
-                if (length > MathUtil.ZeroTolerance)
-                {
-                    float inv = 1.0f / length;
-                    return new Vector3(X * inv, Y * inv, Z * inv);
-                }
-                return new Vector3(X, Y, Z);
+                float inv = 1.0f / length;
+                return new Vector3(X * inv, Y * inv, Z * inv);
             }
+            return new Vector3(X, Y, Z);
         }
+        public Vector3 Normalized => _normalized();
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float Dot(Vector3 v)
+        {
+            return Vector3.Dot(this, v);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Angle(Vector3 u)
         {
             var angleInRadians = MathF.Acos(Vector3.Dot(this, u) / (this.Length() * u.Length()));
+            return angleInRadians * MathUtil.Rad2Deg;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Angle(Vector3 u, Vector3 v)
+        {
+            var angleInRadians = MathF.Acos(Vector3.Dot(u, v) / (u.Length() * v.Length()));
             return angleInRadians * MathUtil.Rad2Deg;
         }
 

@@ -16,9 +16,9 @@ namespace Stride.Physics
         public CharacterComponent()
         {
             Orientation = Quaternion.Identity;
-            StepHeight = 0.1f;
+           // StepHeight = 0.1f;
         }
-
+        /*
         /// <summary>
         /// Jumps this instance.
         /// </summary>
@@ -79,15 +79,15 @@ namespace Stride.Physics
             {
                 fallSpeed = value;
 
-                if (KinematicCharacter != null)
-                {
-                    KinematicCharacter.FallSpeed = fallSpeed;
-                }
+          //      if (KinematicCharacter != null)
+            //    {
+            //        KinematicCharacter.FallSpeed = fallSpeed;
+            //    }
             }
         }
-
+        */
         private AngleSingle maxSlope = new AngleSingle(45, AngleType.Degree);
-
+        
         /// <summary>
         /// Gets or sets if this character element max slope
         /// </summary>
@@ -115,7 +115,7 @@ namespace Stride.Physics
                 }
             }
         }
-
+        
         /// <summary>
         /// Gets the linear velocity from the kinematic character
         /// </summary>
@@ -134,6 +134,7 @@ namespace Stride.Physics
             }
         }
 
+        /*
         private float jumpSpeed = 5.0f;
 
         /// <summary>
@@ -156,14 +157,14 @@ namespace Stride.Physics
             {
                 jumpSpeed = value;
 
-                if (KinematicCharacter != null)
-                {
-                    KinematicCharacter.JumpSpeed = jumpSpeed;
-                }
+           //     if (KinematicCharacter != null)
+            //    {
+             //       KinematicCharacter.JumpSpeed = jumpSpeed;
+               // }
             }
         }
 
-        private Vector3 gravity = new Vector3(0.0f, -10.0f, 0.0f);
+      //  private Vector3 gravity = new Vector3(0.0f, -10.0f, 0.0f);
 
         /// <summary>
         /// Gets or sets if this character is affected by any gravity
@@ -173,8 +174,8 @@ namespace Stride.Physics
         /// </value>
         /// <userdoc>
         /// The gravity force applied to this character
-        /// </userdoc>
-        [Display("Gravity")]
+        /// </userdoc>*/
+     /*   [Display("Gravity")]
         [DataMember(95)]
         public Vector3 Gravity
         {
@@ -192,7 +193,7 @@ namespace Stride.Physics
                 }
             }
         }
-
+     */
         /// <summary>
         /// Gets a value indicating whether this instance is on the ground.
         /// </summary>
@@ -219,6 +220,7 @@ namespace Stride.Physics
             BulletSharp.Math.Vector3 bV3 = targetPosition + diff;
             KinematicCharacter.Warp(ref bV3);
         }
+        /*
 
         /// <summary>
         /// Moves the character towards the specified movement vector.
@@ -265,7 +267,7 @@ namespace Stride.Physics
         {
             KinematicCharacter.SetVerticalVelocity(v, grounded);
         }
-
+        */
         /// <summary>
         /// Sets or gets the orientation of the Entity attached to this character controller
         /// </summary>
@@ -277,6 +279,8 @@ namespace Stride.Physics
         internal BulletSharp.KinematicCharacterController KinematicCharacter;
 
         public void SetVelocityUpdater(BulletSharp.IVelocityUpdater velocityUpdater) => KinematicCharacter?.SetVelocityUpdater(velocityUpdater);
+
+        public BulletSharp.CharacterSweepCallback GhostSweep(Matrix start, Matrix end) => KinematicCharacter.GhostSweep(start, end);
 
         protected override void OnAttach()
         {
@@ -296,14 +300,14 @@ namespace Stride.Physics
             NativeCollisionObject.ContactProcessingThreshold = !Simulation.CanCcd ? 1e18f : 1e30f;
 
             BulletSharp.Math.Vector3 unitY = new BulletSharp.Math.Vector3(0f, 1f, 0f);
-            KinematicCharacter = new BulletSharp.KinematicCharacterController((BulletSharp.PairCachingGhostObject)NativeCollisionObject, (BulletSharp.ConvexShape)ColliderShape.InternalShape, StepHeight, ref unitY);
+            KinematicCharacter = new BulletSharp.KinematicCharacterController((BulletSharp.PairCachingGhostObject)NativeCollisionObject, (BulletSharp.ConvexShape)ColliderShape.InternalShape, 0.5f, ref unitY);
 
             base.OnAttach();
 
-            FallSpeed = fallSpeed;
+       //     FallSpeed = fallSpeed;
             MaxSlope = maxSlope;
-            JumpSpeed = jumpSpeed;
-            Gravity = gravity;
+   //         JumpSpeed = jumpSpeed;
+//            Gravity = gravity;
 
             UpdatePhysicsTransformation(); //this will set position and rotation of the collider
 

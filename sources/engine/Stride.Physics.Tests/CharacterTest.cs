@@ -7,7 +7,7 @@ using Stride.Core.Mathematics;
 using Stride.Engine;
 
 namespace Stride.Physics.Tests
-{
+{/*
     public class CharacterTest : GameTest
     {
         public CharacterTest() : base("CharacterTest")
@@ -134,5 +134,5 @@ namespace Stride.Physics.Tests
             });
             RunGameTest(game);
         }
-    }
+    }*/
 }

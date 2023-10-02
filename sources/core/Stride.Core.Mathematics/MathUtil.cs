@@ -418,21 +418,21 @@ namespace Stride.Core.Mathematics
                 : (amount >= 1) ? 1
                 : amount * amount * amount * (amount * ((amount * 6) - 15) + 10);
         }
-
-        //https://archive.org/details/game-programming-gems-4/mode/2up
-        public static float SmoothCD(float from, float to, ref float vel, float smoothTime, float dt)
+        //Game Programming Gems 4 1.10
+        //https://archive.org/details/game-programming-gems-4/page/97/mode/2up
+        public static float CheapExp(float x) => (1f + x + 0.48f * x * x + 0.235f * x * x * x);
+        public static float CriticalDamp(float from, float to, ref float vel, float smoothTime, float dt)
         {
-            float omega = 2f / smoothTime;
+            float stiffness = 2f / smoothTime; // omega
 
-            float x = omega * dt;
-            float exp = 1f / (1f + x + 0.48f * x * x + 0.235f * x * x * x);
+            float exp = 1f / CheapExp(stiffness * dt);
             float change = from - to;
-            float temp = (vel + omega * change) * dt;
-            vel = (vel - omega * temp) * exp;
+            float temp = (vel + stiffness * change) * dt;
+            vel = (vel - stiffness * temp) * exp;
             return to + (change + temp) * exp;
         }
-        public static Vector3 SmoothCD(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt) => Vector3.SmoothCD(from, to, ref vel, smoothTime, dt);
-        public static Color SmoothCD(Color cur, Color targ, ref Color velocity, float smoothTime, float dt) => Color.SmoothCD(cur, targ, ref velocity, smoothTime, dt);
+        public static Vector3 CriticalDamp(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt) => Vector3.CriticalDamp(from, to, ref vel, smoothTime, dt);
+        public static Color CriticalDamp(Color cur, Color targ, ref Color velocity, float smoothTime, float dt) => Color.CriticalDamp(cur, targ, ref velocity, smoothTime, dt);
 
         /// <summary>
         /// Determines whether the value is inside the given range (inclusively).

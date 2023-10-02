@@ -5,7 +5,7 @@ namespace BulletSharp
 {
     public interface IVelocityUpdater
     {
-        void GetGroundReport(out bool grounded, out bool stable, out Vector3 hitNormal);
+        void UpdateGrounded(ref Vector3 position);
         void UpdateVelocity(ref Vector3 velocity, ref Vector3 position, float dt);
     }
     public struct CharacterSweepCallback
@@ -602,7 +602,7 @@ namespace BulletSharp
 
             PreStep(collisionWorld);
 
-            VelocityUpdater.GetGroundReport(out m_isGrounded, out m_isStable, out GroundNormal);
+            VelocityUpdater.UpdateGrounded(ref m_currentPosition);
             
                 //  var v = (m_ghostObject.WorldTransform.Origin - lastPosition) / deltaTime;
                 //  VelocityUpdater.UpdateVelocity(new Vector3(v.X, m_verticalVelocity, v.Z),deltaTime);

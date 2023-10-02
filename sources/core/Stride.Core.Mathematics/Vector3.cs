@@ -319,15 +319,15 @@ namespace Stride.Core.Mathematics
                 return new Vector3(from.X + distance.X / length * maxTravelDistance, from.Y + distance.Y / length * maxTravelDistance, from.Z + distance.Z / length * maxTravelDistance);
         }
 
-        public static Vector3 SmoothCD(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt)
+        public static Vector3 CriticalDamp(Vector3 from, Vector3 to, ref Vector3 vel, float smoothTime, float dt)
         {
             var tempX = vel.X;
             var tempY = vel.Y;
             var tempZ = vel.Z;
             var res = new Vector3(
-               MathUtil.SmoothCD(from.X, to.X, ref tempX, smoothTime, dt),
-               MathUtil.SmoothCD(from.Y, to.Y, ref tempY, smoothTime, dt),
-               MathUtil.SmoothCD(from.Z, to.Z, ref tempZ, smoothTime, dt)
+               MathUtil.CriticalDamp(from.X, to.X, ref tempX, smoothTime, dt),
+               MathUtil.CriticalDamp(from.Y, to.Y, ref tempY, smoothTime, dt),
+               MathUtil.CriticalDamp(from.Z, to.Z, ref tempZ, smoothTime, dt)
                );
 
             vel = new Vector3(tempX, tempY, tempZ);

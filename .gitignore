@@ -97,6 +97,9 @@ x64Release
 screenshots
 samplesGenerated
 
+deps/BulletSharpPInvoke/BulletSharp/bin/
+deps/BulletSharpPInvoke/BulletSharp/.vs/
+
 # VS Code files
 .vscode/*
 !.vscode/tasks.json
@@ -159,3 +162,15 @@ fastlane/report.xml
 fastlane/screenshots
 *.user
 project.lock.json
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/net6.0/BulletSharp.NetStandard.deps.json
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/net6.0/BulletSharp.NetStandard.dll
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/net6.0/BulletSharp.NetStandard.pdb
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/netstandard2.0/BulletSharp.NetStandard.deps.json
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/netstandard2.0/BulletSharp.NetStandard.dll
+deps/BulletSharpPInvoke/BulletSharp/bin/Debug/netstandard2.0/BulletSharp.NetStandard.pdb
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/net6.0/BulletSharp.NetStandard.deps.json
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/net6.0/BulletSharp.NetStandard.dll
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/net6.0/BulletSharp.NetStandard.pdb
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/netstandard2.0/BulletSharp.NetStandard.deps.json
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/netstandard2.0/BulletSharp.NetStandard.dll
+deps/BulletSharpPInvoke/BulletSharp/bin/Release/netstandard2.0/BulletSharp.NetStandard.pdb

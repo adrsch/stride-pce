@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Configurations>Debug;Release;ReleaseiOS</Configurations>
+        <Platforms>AnyCPU</Platforms>
+        <RootNamespace>BulletSharp</RootNamespace>
+        <LangVersion>Latest</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(Configuration.StartsWith('Release'))">
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'ReleaseiOS' ">
+        <DefineConstants>$(DefineConstants);__iOS__</DefineConstants>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <Compile Remove="demos\**" />
+        <EmbeddedResource Remove="demos\**" />
+        <None Remove="demos\**" />
+        <Compile Remove="test\**" />
+        <EmbeddedResource Remove="test\**" />
+        <None Remove="test\**" />
+        <Compile Remove="Properties\**" />
+        <EmbeddedResource Remove="Properties\**" />
+        <None Remove="Properties\**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="Stride.Core.Mathematics" Version="4.1.0.1" />
+    </ItemGroup>
+
+</Project>

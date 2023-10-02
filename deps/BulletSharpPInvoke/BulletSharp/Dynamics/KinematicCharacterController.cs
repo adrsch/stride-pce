@@ -624,6 +624,8 @@ namespace BulletSharp
             CharacterSweepCallback res;
             using (KinematicClosestNotMeConvexResultCallback callback = new KinematicClosestNotMeConvexResultCallback(m_ghostObject, m_up, m_maxSlopeCosine))
             {
+                float margin = m_convexShape.Margin;
+                m_convexShape.Margin = margin + m_addedMargin;
                 m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
                  res = new CharacterSweepCallback
                 {
@@ -632,6 +634,7 @@ namespace BulletSharp
                     Normal = callback.HitNormalWorld,
                     Point = callback.HitPointWorld,
                 };
+                m_convexShape.Margin = margin;
             }
             return res;
         }

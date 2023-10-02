@@ -420,12 +420,12 @@ namespace Stride.Core.Mathematics
         }
         //Game Programming Gems 4 1.10
         //https://archive.org/details/game-programming-gems-4/page/97/mode/2up
-        public static float CheapExp(float x) => (1f + x + 0.48f * x * x + 0.235f * x * x * x);
+        public static float CheapEXP(float x) => (1f + x + 0.48f * x * x + 0.235f * x * x * x);
         public static float CriticalDamp(float from, float to, ref float vel, float smoothTime, float dt)
         {
             float stiffness = 2f / smoothTime; // omega
 
-            float exp = 1f / CheapExp(stiffness * dt);
+            float exp = 1f / CheapEXP(stiffness * dt);
             float change = from - to;
             float temp = (vel + stiffness * change) * dt;
             vel = (vel - stiffness * temp) * exp;

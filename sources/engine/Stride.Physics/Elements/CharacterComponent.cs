@@ -87,6 +87,17 @@ namespace Stride.Physics
         }
         */
         private AngleSingle maxSlope = new AngleSingle(45, AngleType.Degree);
+
+        float margin;
+        public float Margin
+        {
+            get { return margin; } set {  margin = value;
+                if (ColliderShape != null)
+                {
+                    ColliderShape.Margin = value;
+                }
+            }
+        }
         
         /// <summary>
         /// Gets or sets if this character element max slope
@@ -282,6 +293,8 @@ namespace Stride.Physics
 
         public BulletSharp.CharacterSweepCallback GhostSweep(Matrix start, Matrix end) => KinematicCharacter.GhostSweep(start, end);
 
+        public void ApplyPosition(Vector3 position) => KinematicCharacter?.ApplyPosition(position);
+
         protected override void OnAttach()
         {
             NativeCollisionObject = new BulletSharp.PairCachingGhostObject
@@ -304,7 +317,8 @@ namespace Stride.Physics
 
             base.OnAttach();
 
-       //     FallSpeed = fallSpeed;
+            //     FallSpeed = fallSpeed;
+            Margin = margin;
             MaxSlope = maxSlope;
    //         JumpSpeed = jumpSpeed;
 //            Gravity = gravity;

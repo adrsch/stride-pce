@@ -927,6 +927,14 @@ namespace BulletSharp
             }
         }
 
+        public void ApplyPosition(Vector3 position)
+        {
+            m_currentPosition = position;
+            var xform = m_ghostObject.WorldTransform;
+            xform.Origin = m_currentPosition;
+            m_ghostObject.WorldTransform = xform;
+        }
+
         public float StepHeight
         {
             get => m_stepHeight;

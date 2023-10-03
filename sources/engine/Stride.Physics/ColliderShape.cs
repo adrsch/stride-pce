@@ -121,6 +121,11 @@ namespace Stride.Physics
 
         internal BulletSharp.CollisionShape InternalShape;
 
+        public float Margin
+        {
+            get => InternalShape.Margin; set => InternalShape.Margin = value;
+        }
+
         internal CompoundColliderShape Parent;
 
         public virtual MeshDraw CreateDebugPrimitive(GraphicsDevice device)

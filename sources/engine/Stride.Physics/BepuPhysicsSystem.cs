@@ -19,7 +19,7 @@ namespace Stride.Physics
         private class PhysicsScene
         {
             public PhysicsProcessor Processor;
-            public Bullet2Simulation BulletSimulation;
+            public Simulation BulletSimulation;
             public BepuSimulation BepuSimulation;
         }
 
@@ -104,12 +104,12 @@ namespace Stride.Physics
             }
         }
 
-        public Bullet2Simulation CreateBullet(PhysicsProcessor sceneProcessor, PhysicsEngineFlags flags = PhysicsEngineFlags.None)
+        public Simulation CreateBullet(PhysicsProcessor sceneProcessor, PhysicsEngineFlags flags = PhysicsEngineFlags.None)
         {
             var scene = new PhysicsScene
             {
                 Processor = sceneProcessor,
-                BulletSimulation = new Bullet2Simulation(sceneProcessor, physicsConfiguration),
+                BulletSimulation = new Simulation(sceneProcessor, physicsConfiguration),
                 BepuSimulation = null
             };
             scenes.Add(scene);
@@ -163,7 +163,7 @@ namespace Stride.Physics
                     physicsScene.Processor.UpdateRemovals();
 
                     // after we took care of cleanup, are we disabled?
-                    if (Bullet2Simulation.DisableSimulation == false)
+                    if (Simulation.DisableSimulation == false)
                     {
                         /*
                         //read skinned meshes bone positions and write them to the physics engine
@@ -270,7 +270,7 @@ namespace Stride.Physics
                         }
                     }
 
-                    if (Bullet2Simulation.DisableSimulation == false)
+                    if (Simulation.DisableSimulation == false)
                     {
                         // don't make changes to rigidbodies while simulating
                         BepuRigidbodyComponent.safeRun = false;

@@ -35,8 +35,8 @@ namespace Stride.Physics.Constraints
             var frameB = Matrix.Translation(PivotInB);
 
             var point2point = (bodyB == null
-                ? Bullet2Simulation.CreateConstraint(ConstraintTypes.Point2Point, bodyA, frameA)
-                : Bullet2Simulation.CreateConstraint(ConstraintTypes.Point2Point, bodyA, bodyB, frameA, frameB)
+                ? Simulation.CreateConstraint(ConstraintTypes.Point2Point, bodyA, frameA)
+                : Simulation.CreateConstraint(ConstraintTypes.Point2Point, bodyA, bodyB, frameA, frameB)
                 ) as Point2PointConstraint;
 
             return point2point;

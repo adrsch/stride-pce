@@ -15,7 +15,7 @@ namespace Stride.Physics
         private class PhysicsScene
         {
             public PhysicsProcessor Processor;
-            public Bullet2Simulation Simulation;
+            public Simulation Simulation;
         }
 
         private readonly List<PhysicsScene> scenes = new List<PhysicsScene>();
@@ -55,9 +55,9 @@ namespace Stride.Physics
             }
         }
 
-        public Bullet2Simulation CreateBullet(PhysicsProcessor sceneProcessor, PhysicsEngineFlags flags = PhysicsEngineFlags.None)
+        public Simulation CreateBullet(PhysicsProcessor sceneProcessor, PhysicsEngineFlags flags = PhysicsEngineFlags.None)
         {
-            var scene = new PhysicsScene { Processor = sceneProcessor, Simulation = new Bullet2Simulation(sceneProcessor, physicsConfiguration) };
+            var scene = new PhysicsScene { Processor = sceneProcessor, Simulation = new Simulation(sceneProcessor, physicsConfiguration) };
             lock (this)
             {
                 scenes.Add(scene);
@@ -79,7 +79,7 @@ namespace Stride.Physics
 
         public override void Update(GameTime gameTime)
         {
-            if (Bullet2Simulation.DisableSimulation) return;
+            if (Simulation.DisableSimulation) return;
 
             lock (this)
             {

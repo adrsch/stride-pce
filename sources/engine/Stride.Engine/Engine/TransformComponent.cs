@@ -107,6 +107,7 @@ namespace Stride.Engine
             else WorldMatrix.TranslationVector = p;
         }
 
+        [DataMemberIgnore]
         public Vector3 WorldPosition { get => parent == null ? Position : WorldMatrix.TranslationVector; set => SetWorldPosition(value); }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace Stride.Physics.Constraints
             AxisInB.Rotate(ref axis);
             var frameB = Matrix.Translation(axis);
 
-            var gear = Bullet2Simulation.CreateConstraint(ConstraintTypes.Gear, bodyA, bodyB, frameA, frameB) as GearConstraint;
+            var gear = Simulation.CreateConstraint(ConstraintTypes.Gear, bodyA, bodyB, frameA, frameB) as GearConstraint;
 
             gear.Ratio = Ratio;
 

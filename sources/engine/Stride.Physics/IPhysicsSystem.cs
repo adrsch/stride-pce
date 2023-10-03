@@ -8,7 +8,7 @@ namespace Stride.Physics
 {
     public interface IPhysicsSystem : IGameSystemBase
     {
-        Bullet2Simulation CreateBullet(PhysicsProcessor processor, PhysicsEngineFlags flags = PhysicsEngineFlags.None);
+        Simulation CreateBullet(PhysicsProcessor processor, PhysicsEngineFlags flags = PhysicsEngineFlags.None);
         void Release(PhysicsProcessor processor);
     }
 }

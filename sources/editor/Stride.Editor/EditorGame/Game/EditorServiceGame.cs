@@ -151,7 +151,7 @@ namespace Stride.Editor.EditorGame.Game
             base.Initialize();
 
             // TODO: the physics system should not be registered by default here!
-            Physics.Bullet2Simulation.DisableSimulation = true;
+            Physics.Simulation.DisableSimulation = true;
         }
 
         /// <inheritdoc />

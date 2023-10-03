@@ -11,6 +11,7 @@ using Stride.Core.Mathematics;
 using Stride.Core.Serialization;
 using Stride.Core.Threading;
 using Stride.Engine;
+using Stride.Extensions;
 using Stride.Games;
 using Stride.Graphics;
 using Stride.Graphics.Data;
@@ -90,7 +91,7 @@ namespace Stride.Physics.Bepu
                 center += bb.Center;
             }
             center /= count;
-            return biggest * e.Transform.WorldScale();
+            return biggest * e.Transform.GetWorldScale();
         }
 
         /// <summary>
@@ -322,7 +323,7 @@ namespace Stride.Physics.Bepu
         {
             BepuSimulation.instance.Clear(clearBuffers);
         }
-        /*
+
         private static unsafe bool getMeshOutputs(Stride.Rendering.Mesh modelMesh, out List<Vector3> positions, out List<int> indicies)
         {
             MeshDraw smd = modelMesh.Draw;
@@ -343,9 +344,35 @@ namespace Stride.Physics.Bepu
                 for (int k = 0; k < vpnc.Length; k++)
                     positions.Add(vpnc[k].Position);
             }
+            else if (verts is VertexPositionTexture[])
+            {
+                VertexPositionTexture[] vpnc = verts as VertexPositionTexture[];
+                positions = new List<Vector3>(vpnc.Length);
+                for (int k = 0; k < vpnc.Length; k++)
+                    positions.Add(vpnc[k].Position);
+            }
+            else if (verts is VertexPositionColorTextureSwizzle[])
+            {
+                VertexPositionColorTextureSwizzle[] vpnc = verts as VertexPositionColorTextureSwizzle[];
+                positions = new List<Vector3>(vpnc.Length);
+                for (int k = 0; k < vpnc.Length; k++)
+                    positions.Add(new Vector3(vpnc[k].Position.X, vpnc[k].Position.Y, vpnc[k].Position.Z));
+            }
+            else if (verts is VertexPositionColorTexture[])
+            {
+                VertexPositionColorTexture[] vpnc = verts as VertexPositionColorTexture[];
+                positions = new List<Vector3>(vpnc.Length);
+                for (int k = 0; k < vpnc.Length; k++)
+                    positions.Add(vpnc[k].Position);
+            }
             else
             {
-                throw new ArgumentException("Couldn't get StageMeshDraw mesh, unknown vert type for " + modelMesh.Name);
+               var pos = smd.GetVertexBufferData<Vector3>("POSITION");
+                positions = new List<Vector3>(pos.Length);
+                for (int k = 0; k < pos.Length; k++)
+                    positions.Add(pos[k]);
+
+                //    throw new ArgumentException("Couldn't get StageMeshDraw mesh, unknown vert type for " + modelMesh.Name);
             }
 
             // take care of indicies
@@ -372,15 +399,15 @@ namespace Stride.Physics.Bepu
             {
                 if (smd.IndexBuffer.Is32Bit)
                 {
-                    indicies.Add(BitConverter.ToUInt32(indexData, indexIndex) + indexOffset);
+                    indicies.Add((int)((int)BitConverter.ToUInt32(indexData, indexIndex) + indexOffset));
                     indexIndex += 4;
                 }
                 else
                 {
-                    indicies.Add(BitConverter.ToUInt16(indexData, indexIndex) + indexOffset);
+                    indicies.Add((int)((int)BitConverter.ToUInt16(indexData, indexIndex) + indexOffset));
                     indexIndex += 2;
                 }
-            }*/
+            }
             /*
             if (modelMesh.Draw is StagedMeshDraw)
             {
@@ -457,11 +484,10 @@ namespace Stride.Physics.Bepu
 
                 // take care of positions
                 positions = new List<Vector3>(arraypositions);
-          //  }
-            */
-        //    return true;
-        //}
-        /*
+          //  }*/
+            
+           return true;
+        }
         /// <summary>
         /// Generate a mesh collider from a given mesh. The mesh must have a readable buffer behind it to generate veriticies from
         /// </summary>
@@ -517,8 +543,8 @@ namespace Stride.Physics.Bepu
                 return false;
             }
 
-            return GenerateMeshShape(allPositions, allIndicies, out outMesh, out poolUsed, e.Transform.WorldScale());
-        }*/
+            return GenerateMeshShape(allPositions, allIndicies, out outMesh, out poolUsed, e.Transform.GetWorldScale());
+        }
 
         private class MeshTransformed
         {

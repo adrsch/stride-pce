@@ -186,7 +186,7 @@ namespace Stride.Engine
 
         internal void DerivePhysicsTransform(Vector3? worldPosition, Matrix? worldRotation, Vector3? worldScale, out Matrix outMatrix)
         {
-            Vector3 translation = worldPosition ?? Entity.Transform.WorldPosition(), scale;
+            Vector3 translation = worldPosition ?? Entity.Transform.GetWorldPosition(), scale;
             Matrix rotation;
 
             if (worldScale.HasValue)
@@ -310,8 +310,8 @@ namespace Stride.Engine
 
             if (attachAsChild)
             {
-                e.Transform.Scale = new Vector3(max.X - min.X, max.Y - min.Y, max.Z - min.Z) / Entity.Transform.WorldScale();
-                e.Transform.Position = centerOffset / Entity.Transform.WorldScale();
+                e.Transform.Scale = new Vector3(max.X - min.X, max.Y - min.Y, max.Z - min.Z) / Entity.Transform.GetWorldScale();
+                e.Transform.Position = centerOffset / Entity.Transform.GetWorldScale();
                 if (this is BepuRigidbodyComponent rb && rb.LocalPhysicsOffset.HasValue)
                     e.Transform.Position -= rb.LocalPhysicsOffset.Value;
                 e.Transform.Parent = Entity.Transform;

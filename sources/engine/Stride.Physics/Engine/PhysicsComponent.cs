@@ -355,7 +355,7 @@ namespace Stride.Engine
         }
 
         [DataMemberIgnore]
-        public Bullet2Simulation Simulation { get; internal set; }
+        public Simulation Simulation { get; internal set; }
 
         [DataMemberIgnore]
         internal PhysicsShapesRenderingService DebugShapeRendering;
@@ -642,7 +642,7 @@ namespace Stride.Engine
             Data = data;
 
             //this is mostly required for the game studio gizmos
-            if (Bullet2Simulation.DisableSimulation)
+            if (Simulation.DisableSimulation)
             {
                 return;
             }
@@ -684,7 +684,7 @@ namespace Stride.Engine
             Data = null;
 
             //this is mostly required for the game studio gizmos
-            if (Bullet2Simulation.DisableSimulation)
+            if (Simulation.DisableSimulation)
             {
                 return;
             }

@@ -299,17 +299,17 @@ namespace Stride.Physics.Bepu
 
         private void SetRotateButKeepCameraPos(Quaternion rotation)
         {
-            var existingPosition = Camera.Entity.Transform.WorldPosition();
+            var existingPosition = Camera.Entity.Transform.GetWorldPosition();
             Body.Entity.Transform.Rotation = rotation;
-            var newPosition = Camera.Entity.Transform.WorldPosition(true);
+            var newPosition = Camera.Entity.Transform.GetWorldPosition(true);
             Body.Entity.Transform.Position -= (newPosition - existingPosition);
         }
 
         private void RotateButKeepCameraPos(Quaternion rotation)
         {
-            var existingPosition = Camera.Entity.Transform.WorldPosition();
+            var existingPosition = Camera.Entity.Transform.GetWorldPosition();
             Body.Entity.Transform.Rotation *= rotation;
-            var newPosition = Camera.Entity.Transform.WorldPosition(true);
+            var newPosition = Camera.Entity.Transform.GetWorldPosition(true);
             Body.Entity.Transform.Position -= (newPosition - existingPosition);
         }
 
@@ -328,7 +328,7 @@ namespace Stride.Physics.Bepu
         /// </summary>
         public void LookAt(Vector3 target, bool flattenY = false)
         {
-            Vector3 myPos = Camera != null ? Camera.Entity.Transform.WorldPosition() : Body.Position;
+            Vector3 myPos = Camera != null ? Camera.Entity.Transform.GetWorldPosition() : Body.Position;
             Vector3 diff = target - myPos;
             if (flattenY) diff.Y = 0f;
             if (Camera != null)

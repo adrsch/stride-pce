@@ -14,7 +14,7 @@ namespace Stride.Physics.Tests
         {
         }
 
-        public static bool ScreenPositionToWorldPositionRaycast(Vector2 screenPos, CameraComponent camera, Bullet2Simulation simulation)
+        public static bool ScreenPositionToWorldPositionRaycast(Vector2 screenPos, CameraComponent camera, Simulation simulation)
         {
             var invViewProj = Matrix.Invert(camera.ViewProjectionMatrix);
 

@@ -68,7 +68,7 @@ namespace Stride.Physics
             }
         }
 
-        public Bullet2Simulation Simulation { get; private set; }
+        public Simulation Simulation { get; private set; }
 
         internal void RenderColliderShapes(bool enabled)
         {
@@ -250,7 +250,7 @@ namespace Stride.Physics
 
         public override void Draw(RenderContext context)
         {
-            if (Bullet2Simulation.DisableSimulation) return;
+            if (Simulation.DisableSimulation) return;
 
             foreach (var element in boneElements)
             {

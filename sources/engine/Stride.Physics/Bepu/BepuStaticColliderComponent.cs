@@ -72,7 +72,7 @@ namespace Stride.Physics.Bepu
         {
             get
             {
-                return usePosition ?? Entity.Transform.WorldPosition();
+                return usePosition ?? Entity.Transform.GetWorldPosition();
             }
             set
             {
@@ -85,7 +85,7 @@ namespace Stride.Physics.Bepu
         {
             get
             {
-                return useRotation ?? Entity.Transform.WorldRotation();
+                return useRotation ?? Entity.Transform.GetWorldRotation();
             }
             set
             {
@@ -143,8 +143,8 @@ namespace Stride.Physics.Bepu
             TransformComponent et = Entity.Transform;
             et.UpdateLocalMatrix();
             et.UpdateWorldMatrixInternal(true, false);
-            Stride.Core.Mathematics.Vector3 usepos = et.WorldPosition();
-            Stride.Core.Mathematics.Quaternion q = et.WorldRotation();
+            Stride.Core.Mathematics.Vector3 usepos = et.GetWorldPosition();
+            Stride.Core.Mathematics.Quaternion q = et.GetWorldRotation();
             if (usePosition.HasValue) usepos += usePosition.Value;
             if (useRotation.HasValue) q *= useRotation.Value;
             staticDescription.Pose.Position = BepuHelpers.ToBepu(usepos);

@@ -883,8 +883,8 @@ namespace Stride.Physics.Bepu
             wasAwake = InternalBody.Awake;
             if (GetPoseFromEntity)
             {
-                InternalBody.Pose.Position = BepuHelpers.ToBepu(Entity.Transform.WorldPosition());
-                InternalBody.Pose.Orientation = BepuHelpers.ToBepu(Entity.Transform.WorldRotation());
+                InternalBody.Pose.Position = BepuHelpers.ToBepu(Entity.Transform.GetWorldPosition());
+                InternalBody.Pose.Orientation = BepuHelpers.ToBepu(Entity.Transform.GetWorldRotation());
                 if (!wasAwake) InternalBody.UpdateBounds();
             }
             else if (newPos || newRotation)

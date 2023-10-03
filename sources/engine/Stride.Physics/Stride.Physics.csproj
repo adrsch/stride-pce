@@ -46,6 +46,8 @@
   <Target Name="_StrideIncludeExtraAssemblies">
     <ItemGroup>
       <BuildOutputInPackage Include="$(OutputPath)BulletSharp.NetStandard.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)BepuUtilities.dll" />
+      <BuildOutputInPackage Include="$(OutputPath)BepuPhysics.dll" />
     </ItemGroup>
   </Target>
 </Project>

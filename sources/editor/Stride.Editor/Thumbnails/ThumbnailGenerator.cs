@@ -123,7 +123,7 @@ namespace Stride.Editor.Thumbnails
 
             gameSystems = new GameSystemCollection(Services) { fontSystem, uiSystem, physicsSystem };
             Services.AddService<IGameSystemCollection>(gameSystems);
-            Bullet2Simulation.DisableSimulation = true; //make sure we do not simulate physics within the editor
+            Simulation.DisableSimulation = true; //make sure we do not simulate physics within the editor
 
             // initialize base services
             gameSystems.Initialize();

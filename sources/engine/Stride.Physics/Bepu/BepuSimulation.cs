@@ -96,7 +96,7 @@ namespace Stride.Physics.Bepu
         private BepuSimpleThreadDispatcher threadDispatcher = new BepuSimpleThreadDispatcher();
 
 #if DEBUG
-        private static readonly Logger Log = GlobalLogger.GetLogger(typeof(Bullet2Simulation).FullName);
+        private static readonly Logger Log = GlobalLogger.GetLogger(typeof(Simulation).FullName);
 #endif
 
         /// <summary>
@@ -104,10 +104,10 @@ namespace Stride.Physics.Bepu
         /// </summary>
         public static bool DisableSimulation
         {
-            get => Bullet2Simulation.DisableSimulation;
+            get => Simulation.DisableSimulation;
             set
             {
-                Bullet2Simulation.DisableSimulation = value;
+                Simulation.DisableSimulation = value;
             }
         }
 
@@ -540,10 +540,10 @@ namespace Stride.Physics.Bepu
                 {
                     if (!rigidBody.IgnorePhysicsPosition)
                     {
-                        if (!rigidBody.newPos) rigidBody.bodyDescription.Pose.Position = BepuHelpers.ToBepu(component.Entity.Transform.WorldPosition());
+                        if (!rigidBody.newPos) rigidBody.bodyDescription.Pose.Position = BepuHelpers.ToBepu(component.Entity.Transform.GetWorldPosition());
                         if (rigidBody.LocalPhysicsOffset.HasValue) rigidBody.bodyDescription.Pose.Position -= BepuHelpers.ToBepu(rigidBody.LocalPhysicsOffset.Value);
                     }
-                    if (!rigidBody.RotationLock && !rigidBody.IgnorePhysicsRotation && !rigidBody.newRotation) rigidBody.bodyDescription.Pose.Orientation = BepuHelpers.ToBepu(component.Entity.Transform.WorldRotation());
+                    if (!rigidBody.RotationLock && !rigidBody.IgnorePhysicsRotation && !rigidBody.newRotation) rigidBody.bodyDescription.Pose.Orientation = BepuHelpers.ToBepu(component.Entity.Transform.GetWorldRotation());
                     using (simulationLocker.WriteLock())
                     {
                         //rigidBody.bodyDescription.Collidable = new CollidableDescription(rigidBody.TypeIndex)

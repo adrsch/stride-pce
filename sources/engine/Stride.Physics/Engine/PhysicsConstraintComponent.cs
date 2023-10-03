@@ -74,7 +74,7 @@ namespace Stride.Physics
         /// Simulation to which this constraint was added.
         /// </summary>
         [DataMemberIgnore]
-        public Bullet2Simulation Simulation { get; internal set; }
+        public Simulation Simulation { get; internal set; }
 
         /// <summary>
         /// Invoked when a constraint is broken because one of the rigidbodies

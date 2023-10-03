@@ -95,11 +95,19 @@ namespace Stride.Engine
         /// Default call does not recalcuate the position. It just gets the last frame's position quickly.
         /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date position.
         /// </summary>
-        public Vector3 WorldPosition(bool recalculate = false)
+        public Vector3 GetWorldPosition(bool recalculate = false)
         {
             if (recalculate) UpdateWorldMatrix(true, false);
             return parent == null ? Position : WorldMatrix.TranslationVector;
         }
+
+        public void SetWorldPosition(Vector3 p)
+        {
+            if (parent == null) Position = p;
+            else WorldMatrix.TranslationVector = p;
+        }
+
+        public Vector3 WorldPosition { get => parent == null ? Position : WorldMatrix.TranslationVector; set => SetWorldPosition(value); }
 
         /// <summary>
         /// phr00t
@@ -107,7 +115,7 @@ namespace Stride.Engine
         /// Default call does not recalcuate the scale. It just gets the last frame's scale quickly.
         /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date scale.
         /// </summary>
-        public Vector3 WorldScale(bool recalculate = false)
+        public Vector3 GetWorldScale(bool recalculate = false)
         {
             if (recalculate) UpdateWorldMatrix(true, false);
             if (parent == null) return Scale;
@@ -121,7 +129,7 @@ namespace Stride.Engine
         /// Default call does not recalcuate the rotation. It just gets the last frame's rotation (relatively) quickly.
         /// If you pass true to this function, it will update the world position (which is a costly procedure) to get the most up-to-date rotation.
         /// </summary>
-        public Quaternion WorldRotation(bool recalculate = false)
+        public Quaternion GetWorldRotation(bool recalculate = false)
         {
             if (recalculate) UpdateWorldMatrix(true, false);
             if (parent != null && WorldMatrix.GetRotationQuaternion(out Quaternion q))
@@ -133,6 +141,7 @@ namespace Stride.Engine
                 return Rotation;
             }
         }
+
 
         [DataMemberIgnore]
         public TransformLink TransformLink;

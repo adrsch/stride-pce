@@ -94,6 +94,6 @@ namespace Stride.Physics
         /// <summary>
         /// Gets the Simulation where this Constraint is being processed
         /// </summary>
-        public Simulation Simulation { get; internal set; }
+        public Bullet2Simulation Simulation { get; internal set; }
     }
 }

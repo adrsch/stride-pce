@@ -85,8 +85,8 @@ namespace Stride.Physics.Constraints
             AxisInA.Rotate(ref axisB);
 
             var hinge = bodyB == null
-                ? Simulation.CreateHingeConstraint(bodyA, PivotInA, axisA, UseReferenceFrameA)
-                : Simulation.CreateHingeConstraint(bodyA, PivotInA, axisA, bodyB, PivotInB, axisB, UseReferenceFrameA);
+                ? Bullet2Simulation.CreateHingeConstraint(bodyA, PivotInA, axisA, UseReferenceFrameA)
+                : Bullet2Simulation.CreateHingeConstraint(bodyA, PivotInA, axisA, bodyB, PivotInB, axisB, UseReferenceFrameA);
 
             if (Limit.SetLimit)
             {

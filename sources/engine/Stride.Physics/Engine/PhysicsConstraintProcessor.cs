@@ -27,7 +27,7 @@ namespace Stride.Physics.Engine
             component.Detached = false;
 
             // this is mostly required for the game studio gizmos
-            if (Simulation.DisableSimulation)
+            if (Bullet2Simulation.DisableSimulation)
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace Stride.Physics.Engine
         public override void Update(GameTime time)
         {
             // this is mostly required for the game studio gizmos
-            if (Simulation.DisableSimulation)
+            if (Bullet2Simulation.DisableSimulation)
                 return;
 
             detachedComponents.Clear();

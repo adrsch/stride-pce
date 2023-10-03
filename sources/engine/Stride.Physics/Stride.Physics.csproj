@@ -19,6 +19,12 @@
     <StrideNativeLib Include="..\..\..\deps\BulletPhysics\$(StridePlatformDeps)\**\libbulletc.*">
       <Link>runtimes\%(RecursiveDir)native\%(Filename)%(Extension)</Link>
     </StrideNativeLib>
+    <Reference Include="BepuPhysics">
+      <HintPath>..\..\..\deps\BepuPhysics2\BepuPhysics.dll</HintPath>
+    </Reference>
+    <Reference Include="BepuUtilities">
+      <HintPath>..\..\..\deps\BepuPhysics2\BepuUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="BulletSharp">
       <HintPath>..\..\..\deps\BulletPhysics\$(StrideBulletPlatform)\BulletSharp.NetStandard.dll</HintPath>
     </Reference>

@@ -254,7 +254,7 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Game
             }
 
             //init physics system
-            var physicsSystem = new Bullet2PhysicsSystem(Services);
+            var physicsSystem = new BepuPhysicsSystem(Services);
             Services.AddService<IPhysicsSystem>(physicsSystem);
             GameSystems.Add(physicsSystem);
         }

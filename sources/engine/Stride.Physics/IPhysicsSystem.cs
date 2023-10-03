@@ -2,12 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using Stride.Games;
+using Stride.Physics.Bepu;
 
 namespace Stride.Physics
 {
     public interface IPhysicsSystem : IGameSystemBase
     {
-        Simulation Create(PhysicsProcessor processor, PhysicsEngineFlags flags = PhysicsEngineFlags.None);
+        Bullet2Simulation CreateBullet(PhysicsProcessor processor, PhysicsEngineFlags flags = PhysicsEngineFlags.None);
         void Release(PhysicsProcessor processor);
     }
 }

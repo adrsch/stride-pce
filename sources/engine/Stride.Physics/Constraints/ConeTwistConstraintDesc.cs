@@ -63,8 +63,8 @@ namespace Stride.Physics.Constraints
             var frameB = Matrix.RotationQuaternion(AxisInB) * Matrix.Translation(PivotInB);
 
             var coneTwist = (bodyB == null
-                ? Simulation.CreateConstraint(ConstraintTypes.ConeTwist, bodyA, frameA)
-                : Simulation.CreateConstraint(ConstraintTypes.ConeTwist, bodyA, bodyB, frameA, frameB)
+                ? Bullet2Simulation.CreateConstraint(ConstraintTypes.ConeTwist, bodyA, frameA)
+                : Bullet2Simulation.CreateConstraint(ConstraintTypes.ConeTwist, bodyA, bodyB, frameA, frameB)
                 ) as ConeTwistConstraint;
 
             if (Limit.SetLimit)

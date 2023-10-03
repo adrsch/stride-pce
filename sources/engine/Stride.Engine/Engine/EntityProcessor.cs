@@ -20,6 +20,8 @@ namespace Stride.Engine
         internal ProfilingKey UpdateProfilingKey;
         internal ProfilingKey DrawProfilingKey;
         private readonly TypeInfo mainTypeInfo;
+        //phr00t
+        public string MainTypeName => mainTypeInfo.Name;
         private readonly Dictionary<TypeInfo, bool> componentTypesSupportedAsRequired;
 
         /// <summary>

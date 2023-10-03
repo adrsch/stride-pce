@@ -213,6 +213,7 @@ namespace Stride.Physics
         /// </value>
         public bool IsGrounded => KinematicCharacter?.OnGround ?? false;
 
+        public void SetUseGhost(bool useGhost) => KinematicCharacter?.SetUseGhostSweepTest(useGhost);
         /// <summary>
         /// Teleports the specified target position.
         /// </summary>

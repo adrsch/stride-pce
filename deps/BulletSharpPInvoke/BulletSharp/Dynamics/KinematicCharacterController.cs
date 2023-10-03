@@ -626,7 +626,15 @@ namespace BulletSharp
             {
                 float margin = m_convexShape.Margin;
                 m_convexShape.Margin = margin + m_addedMargin;
-                m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+
+                if (m_useGhostObjectSweepTest)
+                {
+                    m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                }
+                else
+                {
+                    LastWorld.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                }
                  res = new CharacterSweepCallback
                 {
                     Succeeded = callback.HasHit,

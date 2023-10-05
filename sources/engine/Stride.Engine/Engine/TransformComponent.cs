@@ -2,14 +2,17 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using Stride.Core;
 using Stride.Core.Collections;
 using Stride.Core.Mathematics;
 using Stride.Core.Serialization;
 using Stride.Engine.Design;
 using Stride.Engine.Processors;
+using DataContractAttribute = Stride.Core.DataContractAttribute;
+using DataMemberAttribute = Stride.Core.DataMemberAttribute;
+using DataMemberIgnoreAttribute = Stride.Core.DataMemberIgnoreAttribute;
 
 namespace Stride.Engine
 {
@@ -107,6 +110,7 @@ namespace Stride.Engine
             else WorldMatrix.TranslationVector = p;
         }
 
+        [Stride.Core.DataMemberIgnore]
         public Vector3 WorldPosition { get => parent == null ? Position : WorldMatrix.TranslationVector; set => SetWorldPosition(value); }
 
         /// <summary>
@@ -122,6 +126,9 @@ namespace Stride.Engine
             WorldMatrix.GetScale(out Vector3 scale);
             return scale;
         }
+
+        [Stride.Core.DataMemberIgnore]
+        public Vector3 WorldScale => GetWorldScale(false);
 
         /// <summary>
         /// phr00t
@@ -141,6 +148,9 @@ namespace Stride.Engine
                 return Rotation;
             }
         }
+
+        [Stride.Core.DataMemberIgnore]
+        public Quaternion WorldRotation { get => GetWorldRotation(false); }
 
 
         [DataMemberIgnore]

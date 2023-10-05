@@ -3,10 +3,9 @@ using System;
 
 namespace BulletSharp
 {
-    public interface IVelocityUpdater
+    public interface ICharacterMovement
     {
-        void UpdateGrounded(ref Vector3 position);
-        void UpdateVelocity(ref Vector3 velocity, ref Vector3 position, float dt);
+        void OnPhysicsUpdate(float dt);
     }
     public struct CharacterSweepCallback
     {
@@ -100,7 +99,7 @@ namespace BulletSharp
             return direction - ParallelComponent(ref direction, ref normal);
         }
 
-        protected bool RecoverFromPenetration(CollisionWorld collisionWorld)
+        protected bool DoRecoverFromPenetration(CollisionWorld collisionWorld)
         {
             // Here we must refresh the overlapping paircache as the penetrating movement itself or the
             // previous recovery iteration might have used setWorldTransform and pushed us into an object
@@ -179,6 +178,7 @@ namespace BulletSharp
             //System.Console.WriteLine("m_touchingNormal = " + m_touchingNormal);
             return penetration;
         }
+
         protected void StepUp(CollisionWorld world)
         {
             float stepHeight = 0.0f;
@@ -236,7 +236,7 @@ namespace BulletSharp
                     // fix penetration if we hit a ceiling for example
                     int numPenetrationLoops = 0;
                     m_touchingContact = false;
-                    while (RecoverFromPenetration(world))
+                    while (DoRecoverFromPenetration(world))
                     {
                         numPenetrationLoops++;
                         m_touchingContact = true;
@@ -263,6 +263,7 @@ namespace BulletSharp
                 }
             }
         }
+
         protected void UpdateTargetPositionBasedOnCollision(ref Vector3 hitNormal, float tangentMag = 0f, float normalMag = 1f)
         {
             Vector3 movementDirection = m_targetPosition - m_currentPosition;
@@ -379,6 +380,7 @@ namespace BulletSharp
                 }
             }
         }
+
         protected void StepDown(CollisionWorld collisionWorld, float dt)
         {
             Matrix start, end, end_double;
@@ -572,9 +574,6 @@ namespace BulletSharp
             m_convexShape = convexShape;
             m_useWalkDirection = true; // use walk direction by default, legacy behavior
             m_gravity = 9.8f * 3.0f; // 3G acceleration.
-       //     m_fallSpeed = 55.0f;       // Terminal velocity of a sky diver in m/s.
-         //   m_jumpSpeed = 10.0f;       // ?
-       //     m_SetjumpSpeed = m_jumpSpeed;
             m_interpolateUp = true;
             m_maxPenetrationDepth = 0.2f;
 
@@ -583,71 +582,88 @@ namespace BulletSharp
             MaxSlope = MathUtil.DegToRadians(45.0f);
         }
 
-         IVelocityUpdater VelocityUpdater;
-        public void SetVelocityUpdater(IVelocityUpdater vu)
+         ICharacterMovement CharacterMovement;
+        public void SetCharacterMovement(ICharacterMovement vu)
         {
-            VelocityUpdater = vu;
+            CharacterMovement = vu;
         }
 
-        // Vector3 lastPosition;
         Vector3 CurrentVelocity;
-        Vector3 GroundNormal;
         // IAction interface
         CollisionWorld LastWorld;
         public virtual void UpdateAction(CollisionWorld collisionWorld, float deltaTime)
         {
             LastWorld = collisionWorld;
-            if (VelocityUpdater == null)
+
+            if (CharacterMovement == null)
                 return;
 
             PreStep(collisionWorld);
 
-            VelocityUpdater.UpdateGrounded(ref m_currentPosition);
-            
-                //  var v = (m_ghostObject.WorldTransform.Origin - lastPosition) / deltaTime;
-                //  VelocityUpdater.UpdateVelocity(new Vector3(v.X, m_verticalVelocity, v.Z),deltaTime);
-                CurrentVelocity = new Vector3(CurrentVelocity.X, CurrentVelocity.Y, CurrentVelocity.Z);
-                VelocityUpdater.UpdateVelocity(ref CurrentVelocity, ref m_currentPosition, deltaTime);
-            //  SetWalkDirection(CurrentVelocity * deltaTime);
-            //    lastPosition = m_ghostObject.WorldTransform.Origin;
-
-            //  PlayerStep(collisionWorld, deltaTime);
+            CharacterMovement.OnPhysicsUpdate(deltaTime);
 
             Matrix xform = m_ghostObject.WorldTransform;
             xform.Origin = m_currentPosition;
             m_ghostObject.WorldTransform = xform;
-        //    m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, collisionWorld.DispatchInfo.AllowedCcdPenetration);
         }
 
-        public CharacterSweepCallback GhostSweep(Matrix start, Matrix end)
+
+        public CharacterSweepCallback DoSweep(Vector3 startPosition, Vector3 endPosition)
         {
-            CharacterSweepCallback res;
-            using (KinematicClosestNotMeConvexResultCallback callback = new KinematicClosestNotMeConvexResultCallback(m_ghostObject, m_up, m_maxSlopeCosine))
+            CharacterSweepCallback res = new CharacterSweepCallback();
+            Matrix start = Matrix.Identity;
+            Matrix end = Matrix.Identity;
+
+            float fraction = 1.0f;
+
+            start.Origin = startPosition;
+            end.Origin = endPosition;
+            Vector3 sweepDirNegative = startPosition - endPosition;
+
+            start.SetRotation(m_currentOrientation, out start);
+            end.SetRotation(m_targetOrientation, out end);
+
+            using (KinematicClosestNotMeConvexResultCallback callback = new KinematicClosestNotMeConvexResultCallback(m_ghostObject, sweepDirNegative, 0.0f))
             {
+                callback.CollisionFilterGroup = GhostObject.BroadphaseHandle.CollisionFilterGroup;
+                callback.CollisionFilterMask = GhostObject.BroadphaseHandle.CollisionFilterMask;
+
                 float margin = m_convexShape.Margin;
                 m_convexShape.Margin = margin + m_addedMargin;
 
-                if (m_useGhostObjectSweepTest)
+                if (start != end)
                 {
-                    m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                    if (m_useGhostObjectSweepTest)
+                    {
+                        m_ghostObject.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                    }
+                    else
+                    {
+                        LastWorld.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                    }
+                }
+                m_convexShape.Margin = margin;
+
+                fraction -= callback.ClosestHitFraction;
+
+                if (callback.HasHit && GhostObject.HasContactResponse && NeedsCollision(m_ghostObject, callback.HitCollisionObject))
+                {
+                    res.Normal = callback.HitNormalWorld;
+                    res.HitFraction = callback.ClosestHitFraction;
+                    res.Succeeded = true;
+                    res.Point = callback.HitPointWorld;
                 }
                 else
                 {
-                    LastWorld.ConvexSweepTest(m_convexShape, start, end, callback, LastWorld.DispatchInfo.AllowedCcdPenetration);
+                    res.Succeeded = false;
+                    res.HitFraction = 1;
+                    res.Point = endPosition;
                 }
-                 res = new CharacterSweepCallback
-                {
-                    Succeeded = callback.HasHit,
-                    HitFraction = callback.ClosestHitFraction,
-                    Normal = callback.HitNormalWorld,
-                    Point = callback.HitPointWorld,
-                };
-                m_convexShape.Margin = margin;
             }
             return res;
         }
 
-        // IAction interface
+            // IAction interface
         public void DebugDraw(DebugDraw debugDrawer)
         {
         }
@@ -860,7 +876,7 @@ namespace BulletSharp
             //System.Console.WriteLine("walkDirection=" + m_walkDirection);
             //System.Console.WriteLine("walkSpeed=" + walkSpeed);
 
-            StepUp(collisionWorld);
+          //  StepUp(collisionWorld);
             //todo: Experimenting with behavior of controller when it hits a ceiling..
             //bool hitUp = stepUp (collisionWorld);
             //if (hitUp)
@@ -923,7 +939,7 @@ namespace BulletSharp
 
             int numPenetrationLoops = 0;
             m_touchingContact = false;
-            while (RecoverFromPenetration(collisionWorld))
+            while (DoRecoverFromPenetration(collisionWorld))
             {
                 numPenetrationLoops++;
                 m_touchingContact = true;
@@ -935,13 +951,59 @@ namespace BulletSharp
             }
         }
 
-        public void ApplyPosition(Vector3 position)
+        public Vector3 ApplyPosition(Vector3 position, bool doSweep = false, bool recoverFromPenetration = true)
         {
-            m_currentPosition = position;
-            var xform = m_ghostObject.WorldTransform;
+            if (doSweep)
+            {
+                var walk = position - m_currentPosition;
+                StepForwardAndStrafe(LastWorld, ref walk);
+            }
+            else
+            {
+                m_currentPosition = position;
+            }
+            Matrix xform = m_ghostObject.WorldTransform;
             xform.Origin = m_currentPosition;
             m_ghostObject.WorldTransform = xform;
+
+            if (recoverFromPenetration)
+            {
+                int numPenetrationLoops = 0;
+                m_touchingContact = false;
+                while (DoRecoverFromPenetration(LastWorld))
+                {
+                    numPenetrationLoops++;
+                    m_touchingContact = true;
+                    if (numPenetrationLoops > 4)
+                    {
+                        //System.Console.WriteLine("character could not recover from penetration, numPenetrationLoops=" + numPenetrationLoops);
+                        break;
+                    }
+                }
+            }
+            return m_currentPosition;
         }
+
+        public void RecoverFromPenetration()
+        {
+            int numPenetrationLoops = 0;
+            m_touchingContact = false;
+            while (DoRecoverFromPenetration(LastWorld))
+            {
+                numPenetrationLoops++;
+                m_touchingContact = true;
+                if (numPenetrationLoops > 4)
+                {
+                    //System.Console.WriteLine("character could not recover from penetration, numPenetrationLoops=" + numPenetrationLoops);
+                    break;
+                }
+            }
+        }
+
+        public Vector3 GetCurrentPosition() {  return m_currentPosition; }
+        public Vector3 GetCurrentVelocity() { return CurrentVelocity; }
+        public void SetCurrentPosition(Vector3 v) { m_currentPosition = v; }
+        public void SetCurrentVelocity(Vector3 v) { CurrentVelocity = v; }
 
         public float StepHeight
         {

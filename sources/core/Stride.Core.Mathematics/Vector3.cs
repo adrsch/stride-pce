@@ -81,6 +81,18 @@ namespace Stride.Core.Mathematics
         public static readonly Vector3 zero = new Vector3();
         public static readonly Vector3 one = new Vector3(1.0f, 1.0f, 1.0f);
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3 FromXenko()
+        {
+            return new Vector3(x.FromXenko(), y.FromXenko(), z.FromXenko());
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3 ToXenko()
+        {
+            return new Vector3(x.ToXenko(), y.ToXenko(), z.ToXenko());
+        }
+
         /// <summary>
         /// The X component of the vector.
         /// </summary>
@@ -106,6 +118,10 @@ namespace Stride.Core.Mathematics
         [DataMemberIgnore]
         public float z { get => Z; set => Z = value; }
 
+        public bool IsZero()
+        {
+            return MathUtil.IsZero(x) && MathUtil.IsZero(y) &&  MathUtil.IsZero(z);
+        }
 
 
         /// <summary>

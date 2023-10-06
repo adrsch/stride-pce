@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
+// Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
@@ -35,5 +35,8 @@ namespace Stride.Physics
         /// </userdoc>
         [DataMember(40)]
         public float MaxTickDuration = 1f / 120f;
+
+        [DataMember(50)]
+        public float Gravity = -8f;
     }
 }

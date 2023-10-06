@@ -111,17 +111,17 @@ namespace Stride.Physics
 
         public void SetCharacterMovement(BulletSharp.ICharacterMovement velocityUpdater) => KinematicCharacter?.SetCharacterMovement(velocityUpdater);
 
-        public BulletSharp.CharacterSweepCallback DoSweep(BulletSharp.Math.Vector3 start, BulletSharp.Math.Vector3 end) => KinematicCharacter.DoSweep(start, end);
+        public BulletSharp.CharacterSweepCallback DoSweep(BulletSharp.Math.Vector3 start, BulletSharp.Math.Vector3 end) => KinematicCharacter?.DoSweep(start, end) ?? default;
 
         public void ApplyPosition(Vector3 position, bool doSweep = false, bool recoverFromPenetration = true) => KinematicCharacter?.ApplyPosition(position, doSweep, recoverFromPenetration);
 
-        public BulletSharp.Math.Vector3 GetPhysicsPosition() => KinematicCharacter.GetCurrentPosition();
-        public BulletSharp.Math.Vector3 GetPhysicsVelocity() => KinematicCharacter.GetCurrentVelocity();
+        public BulletSharp.Math.Vector3 GetPhysicsPosition() => KinematicCharacter?.GetCurrentPosition() ?? Vector3.zero;
+        public BulletSharp.Math.Vector3 GetPhysicsVelocity() => KinematicCharacter?.GetCurrentVelocity() ?? Vector3.zero;
 
-        public void SetPhysicsPosition(BulletSharp.Math.Vector3 v) => KinematicCharacter.SetCurrentPosition(v);
-        public void SetPhysicsVelocity(BulletSharp.Math.Vector3 v) => KinematicCharacter.SetCurrentVelocity(v);
+        public void SetPhysicsPosition(BulletSharp.Math.Vector3 v) => KinematicCharacter?.SetCurrentPosition(v);
+        public void SetPhysicsVelocity(BulletSharp.Math.Vector3 v) => KinematicCharacter?.SetCurrentVelocity(v);
 
-        public void RecoverFromPenetration() => KinematicCharacter.RecoverFromPenetration();
+        public void RecoverFromPenetration() => KinematicCharacter?.RecoverFromPenetration();
 
         protected override void OnAttach()
         {

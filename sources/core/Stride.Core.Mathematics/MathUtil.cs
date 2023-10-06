@@ -105,6 +105,11 @@ namespace Stride.Core.Mathematics
             return (ulp <= maxUlp);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float FromXenko(this float x) => x * 10f;
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float ToXenko(this float x) => (x * 0.1f);
+
         /// <summary>
         /// Determines whether the specified value is close to zero (0.0f).
         /// </summary>

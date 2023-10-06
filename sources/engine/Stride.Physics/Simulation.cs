@@ -132,8 +132,7 @@ namespace Stride.Physics
             else
             {
                 discreteDynamicsWorld = new BulletSharp.DiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-                // TODO not just hardcode this
-                discreteDynamicsWorld.Gravity = new BulletSharp.Math.Vector3(0, -800, 0);
+                discreteDynamicsWorld.Gravity = new BulletSharp.Math.Vector3(0, configuration.Gravity, 0);
                 collisionWorld = discreteDynamicsWorld;
             }
 

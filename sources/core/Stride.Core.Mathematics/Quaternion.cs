@@ -82,6 +82,15 @@ namespace Stride.Core.Mathematics
         /// </summary>
         public float W;
 
+        [DataMemberIgnore]
+        public float x { get => X; set => X = value; }
+        [DataMemberIgnore]
+        public float y { get => Y; set => Y = value; }
+        [DataMemberIgnore]
+        public float z { get => Z; set => Z = value; }
+        [DataMemberIgnore]
+        public float w { get => W; set => W = value; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Stride.Core.Mathematics.Quaternion"/> struct.
         /// </summary>

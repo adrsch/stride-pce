@@ -31,7 +31,7 @@ namespace Stride.Assets.Entities
                 var scene = new Scene
                 {
                     Parent = Parameters.Parent,
-                    Offset = Parameters.Offset
+                    Offset = Parameters.Offset,
                 };
 
                 foreach (var rootEntity in Parameters.Hierarchy.RootParts)

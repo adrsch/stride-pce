@@ -284,6 +284,12 @@ namespace Stride.Core.Mathematics
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Vector3 Cross(Vector3 v)
+        {
+            return Vector3.Cross(this, v);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Angle(Vector3 u)
         {
             var angleInRadians = MathF.Acos(Vector3.Dot(this, u) / (this.Length() * u.Length()));
@@ -295,6 +301,23 @@ namespace Stride.Core.Mathematics
         {
             var angleInRadians = MathF.Acos(Vector3.Dot(u, v) / (u.Length() * v.Length()));
             return angleInRadians * MathUtil.Rad2Deg;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float SignedAngle(Vector3 u, Vector3 v, Vector3 axis)
+        {
+            var angle = Angle(u, v);
+            var cross = u.Cross(v);
+            return cross.Dot(axis) > 0 ? angle : -angle;
+        }
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float SignedAngle(Vector3 v, Vector3 axis)
+        {
+            var angle = Angle(this, v);
+            var cross = this.Cross(v);
+            return cross.Dot(axis) > 0 ? angle : -angle;
         }
 
         /// <summary>

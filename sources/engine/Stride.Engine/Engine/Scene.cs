@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using Stride.Core;
 using Stride.Core.Annotations;
 using Stride.Core.Collections;
@@ -76,6 +77,9 @@ namespace Stride.Engine
         /// </summary>
         /// <remarks>This field is overwritten by the transform processor each frame.</remarks>
         public Matrix WorldMatrix;
+
+        [DataMemberIgnore]
+        public Dictionary<string, CommandInfo> Commands = new Dictionary<string, CommandInfo>();
 
         /// <summary>
         /// Updates the world transform of the scene.

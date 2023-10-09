@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Stride.Core;
 using Stride.Core.Diagnostics;
@@ -38,6 +39,18 @@ namespace Stride.Engine
             Enabled = true;
             Visible = true;
             GraphicsCompositor = new GraphicsCompositor();
+        }
+
+        public Dictionary<SeqId, Scene> Scenes = new Dictionary<SeqId, Scene>();
+
+        public void Add(SeqId id, Scene scene)
+        {
+            Scenes[id] = scene;
+        }
+        public void Remove(SeqId id)
+        {
+            if (Scenes.ContainsKey(id))
+                Scenes.Remove(id);
         }
 
         /// <summary>

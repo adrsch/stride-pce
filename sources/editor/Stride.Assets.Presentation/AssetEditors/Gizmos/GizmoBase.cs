@@ -32,7 +32,7 @@ namespace Stride.Assets.Presentation.AssetEditors.Gizmos
         /// <summary>
         /// The entity group of the physics gizmo.
         /// </summary>
-        public const RenderGroup PhysicsShapesGroup = RenderGroup.Group7;
+        public const RenderGroup PhysicsShapesGroup = RenderGroup.Group16;
 
         /// <summary>
         /// The entity group of the particle gizmo.
@@ -52,7 +52,7 @@ namespace Stride.Assets.Presentation.AssetEditors.Gizmos
         /// <summary>
         /// The entity group of the physics gizmo.
         /// </summary>
-        public const RenderGroupMask PhysicsShapesGroupMask = RenderGroupMask.Group7;
+        public const RenderGroupMask PhysicsShapesGroupMask = RenderGroupMask.Group16;
 
         /// <summary>
         /// The entity group of the particles gizmo.

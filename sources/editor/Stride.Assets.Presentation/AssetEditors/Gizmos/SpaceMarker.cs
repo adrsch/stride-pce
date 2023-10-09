@@ -28,8 +28,8 @@ namespace Stride.Assets.Presentation.AssetEditors.Gizmos
     {
         private readonly EntityHierarchyEditorGame game;
 
-        public const RenderGroup SpaceMarkerGroup = RenderGroup.Group3;
-        private const RenderGroupMask SpaceMarkerGroupMask = RenderGroupMask.Group3;
+        public const RenderGroup SpaceMarkerGroup = RenderGroup.Group23;
+        private const RenderGroupMask SpaceMarkerGroupMask = RenderGroupMask.Group23;
 
         /// <summary>
         /// The size of the viewport used to draw the space marker is ViewPortFactor * DefaultSize

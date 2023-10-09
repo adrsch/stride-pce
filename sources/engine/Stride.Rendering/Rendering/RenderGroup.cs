@@ -13,8 +13,8 @@ namespace Stride.Rendering
     {
         // NOTE: DO NOT CHANGE VALUES HERE
         Group0 = 0,
-        Group1 = 1,
-        Group2 = 2,
+        UI = 1,
+        FP = 2,
         Group3 = 3,
         Group4 = 4,
         Group5 = 5,

@@ -32,8 +32,8 @@ namespace Stride.Assets.Presentation.AssetEditors.Gizmos
         private readonly EditorGameCameraOrientationService service;
         private readonly EntityHierarchyEditorGame game;
 
-        public const RenderGroup ViewGizmoGroup = RenderGroup.Group6;
-        private const RenderGroupMask ViewGizmoGroupMask = RenderGroupMask.Group6;
+        public const RenderGroup ViewGizmoGroup = RenderGroup.Group28;
+        private const RenderGroupMask ViewGizmoGroupMask = RenderGroupMask.Group28;
 
         private static readonly FaceData[] Faces =
         {

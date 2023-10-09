@@ -10,8 +10,8 @@ namespace Stride.Assets.Presentation.AssetEditors.Gizmos
 {
     public abstract class GridGizmoBase : GizmoBase
     {
-        public const RenderGroup GridGroup = RenderGroup.Group2;
-        public const RenderGroupMask GridGroupMask = RenderGroupMask.Group2;
+        public const RenderGroup GridGroup = RenderGroup.Group20;
+        public const RenderGroupMask GridGroupMask = RenderGroupMask.Group20;
 
         protected static readonly ValueParameterKey<Color4> GridColorKey = ParameterKeys.NewValue<Color4>();
 

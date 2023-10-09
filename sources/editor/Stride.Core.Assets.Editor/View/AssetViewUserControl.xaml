@@ -217,7 +217,7 @@
             <sd:OnEventSetPropertyBehavior EventName="Validated" EventOwnerType="sd:FilteringComboBox" Property="{x:Static Popup.IsOpenProperty}" Value="{sd:False}"/>
           </i:Interaction.Behaviors>
         </Popup>
-        <!--  UPDATE ASSETS FROM SOURCE BUTTON  -->
+        <!--  UPDATE ASSETS FROM SOURCE BUTTON 
         <Button Command="{Binding Session.SourceTracker.UpdateAllAssetsWithModifiedSourceCommand}"
                 ToolTip="{sd:ToolTip {sd:Localize Update assets whose source files have changed, Context=ToolTip}, {x:Static strings:KeyGestures.UpdateAllAssetsWithModifiedSource}}" status:ToolTipHelper.Status="{Binding Session.Editor.Status}" ToolTipService.ShowOnDisabled="True"
                 Visibility="{Binding CanEditAssets, ElementName=AssetView, Converter={sd:VisibleOrCollapsed}}">
@@ -242,7 +242,7 @@
               </Rectangle>
             </Grid>
           </DockPanel>
-        </Button>
+        </Button> -->
         <Button Command="{Binding Session.ImportEffectLogCommand}"
                 IsEnabled="{Binding Session.ImportEffectLogPendingCount, Converter={sd:NumericToBool}}"
                 Visibility="{Binding CanEditAssets, ElementName=AssetView, Converter={sd:VisibleOrCollapsed}}"

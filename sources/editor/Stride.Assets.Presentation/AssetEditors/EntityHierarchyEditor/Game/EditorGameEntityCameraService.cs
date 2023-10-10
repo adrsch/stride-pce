@@ -250,19 +250,6 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Game
                     z = 0f;
                 }
 
-                // Dynamically change MovementSpeed of Camera by using MouseWheel while moving around
-                if (input.isRotating)
-                {
-                    if (Game.Input.MouseWheelDelta > 0.0f)
-                    {
-                        editor.Dispatcher.InvokeAsync(() => Camera.IncreaseMovementSpeed());
-                    }
-                    if (Game.Input.MouseWheelDelta < 0.0f)
-                    {
-                        editor.Dispatcher.InvokeAsync(() => Camera.DecreaseMovementSpeed());
-                    }
-                }
-
                 var localDirection = Vector3.Normalize(new Vector3(x, y, -z));
                 position += Vector3.Transform(localDirection, rotation) * baseSpeed * dt * 60f;
             }

@@ -346,7 +346,17 @@ namespace BulletSharp
             m_maxPenetrationDepth = 0.2f;
         }
 
-         ICharacterMovement CharacterMovement;
+        public void SetConvexShape(PairCachingGhostObject ghostObject)
+        {
+            m_ghostObject = ghostObject;
+        }
+
+        public void SetConvexShape(ConvexShape convexShape)
+        {
+            m_convexShape = convexShape;
+        }
+
+        ICharacterMovement CharacterMovement;
         public void SetCharacterMovement(ICharacterMovement vu)
         {
             CharacterMovement = vu;

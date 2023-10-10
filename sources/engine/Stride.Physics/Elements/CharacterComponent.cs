@@ -123,6 +123,11 @@ namespace Stride.Physics
 
         public void RecoverFromPenetration() => KinematicCharacter?.RecoverFromPenetration();
 
+        public void UpdateShape()
+        {
+            KinematicCharacter.SetConvexShape((BulletSharp.ConvexShape)ColliderShape.InternalShape);
+        }
+
         protected override void OnAttach()
         {
             NativeCollisionObject = new BulletSharp.PairCachingGhostObject

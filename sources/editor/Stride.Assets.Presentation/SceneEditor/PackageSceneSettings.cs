@@ -30,7 +30,7 @@ namespace Stride.Assets.Presentation.SceneEditor
         public float CamNearClipPlane = CameraComponent.DefaultNearClipPlane;
         public float CamFarClipPlane = CameraComponent.DefaultFarClipPlane;
         public float CamAspectRatio = CameraComponent.DefaultAspectRatio;
-        public float CamMoveSpeed = EditorGameCameraService.DefaultMoveSpeed;
+        public float CamMoveSpeed = MathUtil.Lerp(EditorGameCameraService.DefaultMinSpeed, EditorGameCameraService.DefaultMaxSpeed, EditorGameCameraService.DefaultMoveSpeedPercent);
 
         // Snapping
         public bool TranslationSnapActive = false;

@@ -676,7 +676,11 @@
                     <StackPanel Margin="4">
                       <sd:KeyValueGrid>
                         <TextBlock DockPanel.Dock="Left" Text="{sd:Localize Speed:}" Margin="5"/>
-                        <Slider sd:KeyValueGrid.UseFullRow="True" HorizontalAlignment="Stretch" Height="18" Margin="5" Minimum="0" Maximum="{Binding Camera.AvailableMovementSpeedCount}" Value="{Binding Camera.MoveSpeedIndex}"/>
+                        <Slider sd:KeyValueGrid.UseFullRow="True" HorizontalAlignment="Stretch" Height="18" Margin="5" Minimum="0" Maximum="1" Value="{Binding Camera.MoveSpeedPercent}"/>
+                        <TextBlock DockPanel.Dock="Left" Text="{sd:Localize Min speed:}" Margin="5"/>
+                        <sd:NumericTextBox Value="{Binding Camera.MinCameraSpeed}" DecimalPlaces="4" HorizontalAlignment="Stretch" Margin="5" Minimum="0" Maximum="{Binding Camera.MaxCameraSpeed}"/>
+                        <TextBlock DockPanel.Dock="Left" Text="{sd:Localize Max speed:}" Margin="5"/>
+                        <sd:NumericTextBox Value="{Binding Camera.MaxCameraSpeed}" DecimalPlaces="4" HorizontalAlignment="Stretch" Margin="5" Minimum="{Binding Camera.MinCameraSpeed}" Maximum="1000"/>
                       </sd:KeyValueGrid>
                     </StackPanel>
                     <Border Padding="8,2" Background="{StaticResource NormalBrush}" HorizontalAlignment="Stretch">

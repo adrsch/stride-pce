@@ -20,7 +20,9 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Game
         public static readonly Vector3 DefaultPosition = new Vector3(4, 2, 4);
         public static readonly float DefaultPitch = -MathUtil.Pi / 12.0f;
         public static readonly float DefaultYaw = MathUtil.Pi / 4.0f;
-        public static readonly float DefaultMoveSpeed = 3.0f;
+        public static readonly float DefaultMoveSpeedPercent = 0.03f;
+        public static readonly float DefaultMinSpeed = 1f;
+        public static readonly float DefaultMaxSpeed = 100f;
         protected static readonly Vector3 UpVector = new Vector3(0, 1, 0);
         protected static readonly Vector3 ForwardVector = new Vector3(0, 0, -1);
 
@@ -91,6 +93,16 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Game
         /// Gets or sets the moving speed of the camera (in units/second).
         /// </summary>
         public float MoveSpeed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum moving speed of the camera (in units/second).
+        /// </summary>
+        public float MinCameraSpeed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum moving speed of the camera (in units/second).
+        /// </summary>
+        public float MaxCameraSpeed { get; set; }
 
         /// <summary>
         /// Gets or sets the rotation speed of the camera (in radian/screen units)
@@ -236,7 +248,9 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Game
             Component.FarClipPlane = CameraComponent.DefaultFarClipPlane;
             Component.UseCustomViewMatrix = true;
 
-            MoveSpeed = DefaultMoveSpeed;
+            MinCameraSpeed = DefaultMinSpeed;
+            MaxCameraSpeed = DefaultMaxSpeed;
+            MoveSpeed = MathUtil.Lerp(DefaultMinSpeed, DefaultMaxSpeed, DefaultMoveSpeedPercent);
             RotationSpeed = 0.75f * MathUtil.Pi;
             MouseMoveSpeedFactor = 100.0f;
             MouseWheelZoomSpeedFactor = 12.0f;

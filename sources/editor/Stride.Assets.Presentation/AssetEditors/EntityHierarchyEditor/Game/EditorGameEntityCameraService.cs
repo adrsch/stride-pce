@@ -107,9 +107,18 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Game
             base.UpdateCamera();
 
             // Movement speed control
-            if (Game.Input.IsKeyPressed(Keys.OemPlus) || Game.Input.IsKeyPressed(Keys.Add))
+
+            var mouseWheelControlsSpeed = !IsOrthographic && Game.Input.HasDownMouseButtons;
+            var speedChangedFromMouseWheel = mouseWheelControlsSpeed && MathF.Abs(Game.Input.MouseWheelDelta) > 0;
+            if (speedChangedFromMouseWheel)
+            {
+                var moveSpeedChangedAmount = Game.Input.MouseWheelDelta * 0.025f;
+                editor.Dispatcher.InvokeAsync(() => Camera.MoveSpeedPercent += moveSpeedChangedAmount);
+            }
+
+            if (Game.Input.IsKeyPressed(IncreaseCamSpeed.GetValue()) || Game.Input.IsKeyPressed(Keys.Add))
                 editor.Dispatcher.InvokeAsync(() => Camera.IncreaseMovementSpeed());
-            else if (Game.Input.IsKeyPressed(Keys.OemMinus) || Game.Input.IsKeyPressed(Keys.Subtract))
+            else if (Game.Input.IsKeyPressed(DecreaseCamSpeed.GetValue()) || Game.Input.IsKeyPressed(Keys.Subtract))
                 editor.Dispatcher.InvokeAsync(() => Camera.DecreaseMovementSpeed());
 
             var duplicating = Game.Input.IsKeyDown(Keys.LeftCtrl) || Game.Input.IsKeyDown(Keys.RightCtrl);
@@ -286,10 +295,15 @@ namespace Stride.Assets.Presentation.AssetEditors.EntityHierarchyEditor.Game
                 {
                     // Perspective
                     var forward = Vector3.Transform(ForwardVector, rotation);
-                    position += forward * MouseWheelZoomSpeedFactor * Game.Input.MouseWheelDelta * 0.1f;    // Multiply by 0.1f so it matches the zoom "speed" of the orthographic mode.
                     if (Game.Input.HasDownMouseButtons)
                     {
+                        // Ignore mouse wheel - it is used to change the camera speed
                         position += forward * baseSpeed * MouseMoveSpeedFactor * (Game.Input.MouseDelta.X + Game.Input.MouseDelta.Y);
+                    }
+                    else
+                    {
+                        // Use mouse wheel to control position
+                        position += forward * MouseWheelZoomSpeedFactor * Game.Input.MouseWheelDelta * 0.1f;    // Multiply by 0.1f so it matches the zoom "speed" of the orthographic mode.
                     }
                     revolutionRadius = Vector3.Distance(targetPos, position);
                 }

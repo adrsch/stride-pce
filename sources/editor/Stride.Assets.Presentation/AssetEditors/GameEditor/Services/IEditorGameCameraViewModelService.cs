@@ -52,6 +52,16 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.Services
         float MoveSpeed { get; set; }
 
         /// <summary>
+        /// Gets or sets the minimum moving speed of the camera (in units/second).
+        /// </summary>
+        float MinCameraSpeed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum moving speed of the camera (in units/second).
+        /// </summary>
+        float MaxCameraSpeed { get; set; }
+
+        /// <summary>
         /// Resets the camera to its default.
         /// </summary>
         void ResetCamera();

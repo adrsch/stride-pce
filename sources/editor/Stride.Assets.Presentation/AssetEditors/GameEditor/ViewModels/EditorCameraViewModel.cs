@@ -8,6 +8,7 @@ using Stride.Core.Presentation.ViewModel;
 using Stride.Assets.Presentation.AssetEditors.GameEditor.Services;
 using Stride.Assets.Presentation.SceneEditor;
 using Stride.Engine.Processors;
+using Stride.Core.Yaml.Tokens;
 
 namespace Stride.Assets.Presentation.AssetEditors.GameEditor.ViewModels
 {
@@ -23,28 +24,51 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.ViewModels
 
         public static float[] AvailableMovementSpeed =
         {
+            0f,
+            0.03f,
+            0.05f,
             0.1f,
-            1.0f,
-            3.0f,
-            10.0f,
-            100.0f,
+            1f,
         };
-
-        public int AvailableMovementSpeedCount => AvailableMovementSpeed.Length - 1;
 
         private static int FindValidMoveSpeedIndex(float value)
         {
             for (int i = 0; i < AvailableMovementSpeed.Length; i++)
             {
-                if (MathUtil.NearEqual(value, AvailableMovementSpeed[i]))
+                // Assume in order
+                if (MathUtil.NearEqual(value, AvailableMovementSpeed[i]) || AvailableMovementSpeed[i] > value)
                     return i;
             }
-            return 2;
+            return AvailableMovementSpeed.Length - 1;
         }
 
         private static float FindValidMoveSpeedValue(int index)
         {
             return AvailableMovementSpeed[MathUtil.Clamp(index, 0, AvailableMovementSpeed.Length - 1)];
+        }
+
+        private float FindValidMoveSpeedForPercent(float percent)
+        {
+            return MathUtil.Lerp(MinCameraSpeed, MaxCameraSpeed, MathUtil.Clamp(percent, 0, 1));
+        }
+
+        private float FindMoveSpeedPercent(float speed)
+        {
+            return (speed - MinCameraSpeed) / (MaxCameraSpeed - MinCameraSpeed);
+        }
+
+        private void SetMinSpeed(float minSpeed)
+        {
+            var currentPercent = FindMoveSpeedPercent(MoveSpeed);
+            Service.MinCameraSpeed = minSpeed;
+            MoveSpeedPercent = currentPercent;
+        }
+
+        private void SetMaxSpeed(float maxSpeed)
+        {
+            var currentPercent = FindMoveSpeedPercent(MoveSpeed);
+            Service.MaxCameraSpeed = maxSpeed;
+            MoveSpeedPercent = currentPercent;
         }
 
         public EditorCameraViewModel([NotNull] IViewModelServiceProvider serviceProvider, [NotNull] IEditorGameController controller)
@@ -67,6 +91,12 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.ViewModels
         public float FieldOfView { get { return fieldOfView; } set { SetValue(Math.Abs(FieldOfView - value) > MathUtil.ZeroTolerance, () => Service.SetFieldOfView(fieldOfView = value)); } }
 
         public float MoveSpeed { get { return Service.MoveSpeed; } set { SetValue(Math.Abs(MoveSpeed - value) > MathUtil.ZeroTolerance, () => Service.MoveSpeed = value); } }
+
+        public float MinCameraSpeed { get { return Service.MinCameraSpeed; } set { SetValue(Math.Abs(MinCameraSpeed - value) > MathUtil.ZeroTolerance, () => SetMinSpeed(value)); } }
+
+        public float MaxCameraSpeed { get { return Service.MaxCameraSpeed; } set { SetValue(Math.Abs(MaxCameraSpeed - value) > MathUtil.ZeroTolerance, () => SetMaxSpeed(value)); } }
+
+        public float MoveSpeedPercent { get { return FindMoveSpeedPercent(MoveSpeed); } set { SetValue(!MathUtil.NearEqual(value, MoveSpeedPercent), () => MoveSpeed = FindValidMoveSpeedForPercent(value)); } }
 
         public int MoveSpeedIndex { get { return FindValidMoveSpeedIndex(MoveSpeed); } set { SetValue(value != MoveSpeedIndex, () => MoveSpeed = FindValidMoveSpeedValue(value)); } }
 
@@ -104,12 +134,14 @@ namespace Stride.Assets.Presentation.AssetEditors.GameEditor.ViewModels
 
         public void IncreaseMovementSpeed()
         {
-            MoveSpeedIndex++;
+            var currentSpeedIndex = FindValidMoveSpeedIndex(MoveSpeed);
+            MoveSpeed = FindValidMoveSpeedValue(currentSpeedIndex + 1);
         }
 
         public void DecreaseMovementSpeed()
         {
-            MoveSpeedIndex--;
+            var currentSpeedIndex = FindValidMoveSpeedIndex(MoveSpeed);
+            MoveSpeed = FindValidMoveSpeedValue(currentSpeedIndex - 1);
         }
     }
 }

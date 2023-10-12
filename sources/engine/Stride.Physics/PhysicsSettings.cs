@@ -4,6 +4,7 @@
 using System;
 using Stride.Core;
 using Stride.Data;
+using Stride.Core.Mathematics;
 
 namespace Stride.Physics
 {
@@ -36,7 +37,10 @@ namespace Stride.Physics
         [DataMember(40)]
         public float MaxTickDuration = 1f / 120f;
 
+        /// <userdoc>
+        /// Default gravity vector for BulletSharp physics simulation.
+        /// </userdoc>
         [DataMember(50)]
-        public float Gravity = -8f;
+        public Vector3 Gravity = new Vector3(0, -9.81f, 0);
     }
 }

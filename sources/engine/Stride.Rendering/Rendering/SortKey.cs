@@ -12,9 +12,12 @@ namespace Stride.Rendering
         public ulong Value;
         public int Index;
         public int StableIndex;
+        public ushort Group;
 
         public int CompareTo(SortKey other)
         {
+            var rGroup = Group.CompareTo(other.Group);
+            if (rGroup != 0) return rGroup;
             var result = Value.CompareTo(other.Value);
             return result != 0 ? result : StableIndex.CompareTo(other.StableIndex);
         }

@@ -17,6 +17,9 @@ namespace Stride.Rendering
         protected int statePosition = 0;
         protected int statePrecision = 32;
 
+        protected int orderPosition = 0;
+        protected bool useGroup;
+
         protected SortModeDistance(bool reverseDistance)
         {
             this.reverseDistance = reverseDistance;
@@ -45,6 +48,7 @@ namespace Stride.Rendering
 
             int distanceShift = 32 - distancePrecision;
             int stateShift = 32 - statePrecision;
+          //  int orderShift = 32 - orderPrecision;
 
             for (int i = 0; i < renderNodes.Count; ++i)
             {
@@ -56,8 +60,28 @@ namespace Stride.Rendering
                 if (reverseDistance)
                     distanceI = ~distanceI;
 
+                if (useGroup)
+                    sortKeys[i] = new SortKey
+                    {
+                        //  Value = ((ulong)(distanceI >> distanceShift) << 32) 
+                        // | (uint)renderNode.RenderObject.RenderGroup,
+                        Value = ((ulong)renderNode.RootRenderFeature.SortKey << 56)
+                    | ((ulong)(distanceI >> distanceShift) << distancePosition)
+                    | ((ulong)(renderObject.StateSortKey >> stateShift) << statePosition),
+                        Index = i,
+                        StableIndex = renderObject.Index,
+                        Group = (ushort)renderNode.RenderObject.RenderGroup
+                    };
+                else
                 // Compute sort key
-                sortKeys[i] = new SortKey { Value = ((ulong)renderNode.RootRenderFeature.SortKey << 56) | ((ulong)(distanceI >> distanceShift) << distancePosition) | ((ulong)(renderObject.StateSortKey >> stateShift) << statePosition), Index = i, StableIndex = renderObject.Index };
+                sortKeys[i] = new SortKey 
+                { 
+                    Value = ((ulong)renderNode.RootRenderFeature.SortKey << 56) 
+                    | ((ulong)(distanceI >> distanceShift) << distancePosition) 
+                    | ((ulong)(renderObject.StateSortKey >> stateShift) << statePosition),
+                    Index = i, 
+                    StableIndex = renderObject.Index
+                };
             }
         }
     }

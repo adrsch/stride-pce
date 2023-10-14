@@ -1,6 +1,8 @@
 // Copyright (c) .NET Foundation and Contributors (https://dotnetfoundation.org/ & https://stride3d.net) and Silicon Studio Corp. (https://www.siliconstudio.co.jp)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Stride.Core;
@@ -96,6 +98,25 @@ namespace Stride.Audio
 
         protected override void OnEntityComponentAdding(Entity entity, AudioEmitterComponent component, AssociatedData data)
         {
+            entity.Commands["oneshot"] = new CommandInfo
+            {
+                Params = new List<Type> { typeof(string) },
+                Exec = async args => component.Oneshot((string)args[0]),
+                Help = "Play a non-looping sfx"
+            };
+
+            entity.Commands["startsound"] = new CommandInfo
+            {
+                Params = new List<Type> { typeof(string) },
+                Exec = async args => component.Startsound((string)args[0]),
+            };
+
+            entity.Commands["stopsound"] = new CommandInfo
+            {
+                Params = new List<Type> { typeof(string) },
+                Exec = async args => component.Stopsound((string)args[0]),
+            };
+
             // initialize the AudioEmitter first position
             data.TransformComponent.UpdateWorldMatrix(); // ensure the worldMatrix is correct
             data.AudioEmitter = new AudioEmitter { Position = data.TransformComponent.WorldMatrix.TranslationVector }; // valid position is needed at first Update loop to compute velocity.
@@ -169,6 +190,12 @@ namespace Stride.Audio
                         }
 
                         //Apply parameters
+                        if (instanceListener.Key.bus != controller.Bus)
+                        { 
+                            instanceListener.Key.bus = controller.Bus;
+                            instanceListener.Key.Volume = controller.Volume;
+                        }
+
                         if (instanceListener.Key.Volume != controller.Volume) instanceListener.Key.Volume = controller.Volume; // ensure that instance volume is valid
                         if (instanceListener.Key.IsLooping != controller.IsLooping) instanceListener.Key.IsLooping = controller.IsLooping;
 
@@ -208,9 +235,9 @@ namespace Stride.Audio
 
                             var instance = controller.CreateSoundInstance(listeners.Key, true);
                             if (instance == null) continue;
-
+                            instance.bus = controller.Bus;
                             instance.Volume = controller.Volume;
-                            instance.Pitch = controller.Pitch;
+                            instance.Pitch = controller.GetPitch();
                             instance.Apply3D(emitter);
                             instance.Play();
 

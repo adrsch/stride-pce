@@ -42,9 +42,12 @@ namespace Stride.Engine
         }
 
         public Dictionary<SeqId, Scene> Scenes = new Dictionary<SeqId, Scene>();
+        public Scene Root;
 
         public void Add(SeqId id, Scene scene)
         {
+            if (id.Id == "root")
+                Root = scene;
             Scenes[id] = scene;
         }
         public void Remove(SeqId id)

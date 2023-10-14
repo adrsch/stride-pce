@@ -8,6 +8,15 @@ using Stride.Media;
 
 namespace Stride.Audio
 {
+    public enum AudioBus
+    {
+        None = 0,
+        SFX = 1 << 0,
+        Music = 1 << 1,
+        UI = 1 << 2,
+
+        Master = int.MaxValue,
+    }
     /// <summary>
     /// Base class for sound that creates voices
     /// </summary>
@@ -23,6 +32,7 @@ namespace Stride.Audio
         protected float volume;
         protected bool spatialized;
         protected PlayState playState = PlayState.Stopped;
+        public AudioBus bus = AudioBus.SFX;
 
         internal AudioLayer.Source Source;
 
@@ -147,7 +157,7 @@ namespace Stride.Audio
                 if (engine.State == AudioEngineState.Invalidated)
                     return;
 
-                AudioLayer.SourceSetGain(Source, volume);
+                AudioLayer.SourceSetGain(Source, volume * AudioBusController.Inst.GetVolume(bus));
             }
         }
 

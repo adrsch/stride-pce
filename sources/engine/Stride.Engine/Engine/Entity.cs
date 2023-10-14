@@ -13,6 +13,7 @@ using Stride.Core.Collections;
 using Stride.Core.Mathematics;
 using Stride.Core.Serialization;
 using Stride.Core.Serialization.Contents;
+using static Stride.Graphics.DescriptorSetLayoutBuilder;
 
 namespace Stride.Engine
 {
@@ -30,6 +31,25 @@ namespace Stride.Engine
     {
         internal TransformComponent TransformValue;
         internal Scene SceneValue;
+
+        [DataMember(0)]
+        public SeqId SeqId = new SeqId();
+
+        [DataMemberIgnore]
+        public Dictionary<string, CommandInfo> Commands = new Dictionary<string, CommandInfo>();
+
+        // SEQ: Optimize
+        public Entity GetChild(SeqId id)
+        {
+            foreach (var child in Transform.Children)
+            {
+                if (id == SeqId)
+                    return child.Entity;
+            }
+
+            return null;
+        }
+
 
         /// <summary>
         /// Create a new <see cref="Entity"/> instance.
@@ -77,7 +97,7 @@ namespace Stride.Engine
         [NonOverridable]
         public Guid Id { get; set; }
 
-        [DataMember(0)] // Name is serialized
+        [DataMember(5)] // Name is serialized
         public override string Name
         {
             get

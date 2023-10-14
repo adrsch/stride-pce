@@ -33,6 +33,7 @@ namespace Stride.Audio
     {
         private readonly SoundBase sound;
         private readonly AudioEmitterComponent emitter;
+        public AudioBus Bus;
 
         public bool IsDisposed { get; set; }
 
@@ -180,6 +181,12 @@ namespace Stride.Audio
             }
         }
 
+        public float GetPitch()
+        {
+            var rand = (2 * Random.Shared.NextSingle() - 1) * PitchVariance;
+            return rand;
+        }
+
         /// <summary>
         /// Indicate the <see cref="AudioListenerProcessor"/> if the controller's sound instances need to be played.
         /// This variable is need because <see cref="Play"/> is asynchronous and actually starts playing only on next system update.
@@ -209,6 +216,30 @@ namespace Stride.Audio
         {
             FastInstancePlay = true; // tells the EmitterProcessor to create and start playing a temporary instances.
         }
+
+        public void Oneshot(float volume = 1f, float nextPitchVariance = 0f)
+        {
+            Volume = volume;
+            PitchVariance = nextPitchVariance;
+            FastInstancePlay = true; // tells the EmitterProcessor to create and start playing a temporary instances.
+
+        }
+
+        public void Startsound(float volume = 1f)
+        {
+            Volume = volume;
+            playState = PlayState.Playing;
+
+            // Controller play function is asynchronous.
+            // underlying sound instances actually start playing only after the next system update.
+            // Such a asynchronous behavior is required in order to be able to update the associated AudioEmitter
+            // and apply localization to the sound before starting to play.
+
+            ShouldBePlayed = true;  // tells the EmitterProcessor to start playing the underlying instances.
+
+        }
+
+        float PitchVariance = 0f;
 
         public void Pause()
         {

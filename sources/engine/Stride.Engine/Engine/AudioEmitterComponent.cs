@@ -9,9 +9,22 @@ using Stride.Core;
 using Stride.Core.Annotations;
 using Stride.Core.Collections;
 using Stride.Engine.Design;
+using Stride.Media;
 
 namespace Stride.Engine
 {
+    [DataContract]
+    public class AudioEmitterSound
+    {
+        [DataMember]
+        public Sound Sound;
+        [DataMember]
+        public float Volume;
+        [DataMember]
+        public AudioBus Bus;
+        [DataMember]
+        public float PitchVariance;
+    }
     /// <summary>
     /// Component representing an audio emitter.
     /// </summary>
@@ -34,11 +47,45 @@ namespace Stride.Engine
     [ComponentCategory("Audio")]
     public sealed class AudioEmitterComponent : ActivableEntityComponent
     {
+
         /// <summary>
         /// Dictionary associating each SoundBase to a single soundController.
         /// The controller a valid as long as the corresponding SoundBase is present in the dictionary.
         /// </summary>
         internal readonly Dictionary<SoundBase, AudioEmitterSoundController> SoundToController = new Dictionary<SoundBase, AudioEmitterSoundController>();
+
+        public void Oneshot(string soundName)
+        {
+            if (Sounds.TryGetValue(soundName, out var info))
+            {
+                var controller = SoundToController[info.Sound];
+                controller.Bus = info.Bus;
+                controller.Volume = info.Volume;
+                controller.Oneshot(info.Volume, info.PitchVariance);
+            }
+        }
+
+        public void Startsound(string soundName)
+        {
+            if (Sounds.TryGetValue(soundName, out var info))
+            {
+                var controller = SoundToController[info.Sound];
+                controller.Bus = info.Bus;
+                controller.Volume = info.Volume;
+                if (controller.PlayState != PlayState.Playing)
+                    controller.Play();
+            }
+        }
+
+        public void Stopsound(string soundName)
+        {
+            if (Sounds.TryGetValue(soundName, out var info))
+            {
+                var controller = SoundToController[info.Sound];
+                if (controller.PlayState != PlayState.Playing)
+                    controller.Stop();
+            }
+        }
 
         /// <summary>
         /// Event argument class used to signal the <see cref="AudioEmitterProcessor"/> that a new AudioEmitterSoundController has new added or removed to the component.
@@ -83,7 +130,9 @@ namespace Stride.Engine
         /// The sounds this audio emitter can play and use
         /// </summary>
         [DataMember(10)]
-        public TrackingDictionary<string, Sound> Sounds = new TrackingDictionary<string, Sound>();
+        public TrackingDictionary<string, AudioEmitterSound> Sounds = new TrackingDictionary<string, AudioEmitterSound>();
+
+        public Sound GetSound(string soundName) => Sounds.TryGetValue(soundName, out var sound) ? sound.Sound : null;
 
         /// <summary>
         /// The sound controllers associated with the sounds this audio emitter can play and use, use this to access and play sounds.
@@ -91,7 +140,7 @@ namespace Stride.Engine
         /// <param name="soundName">The name of the sound you want to access.</param>
         /// <returns>The sound controller.</returns>
         [DataMemberIgnore]
-        public AudioEmitterSoundController this[string soundName] => SoundToController[Sounds[soundName]];
+        public AudioEmitterSoundController this[string soundName] => SoundToController[GetSound(soundName)];
 
         /// <summary>
         /// If possible use a more complex HRTF algorithm to perform 3D sound simulation
@@ -185,7 +234,7 @@ namespace Stride.Engine
             {
                 if (sound.Value != null)
                 {
-                    AttachSound(sound.Value);
+                    AttachSound(sound.Value.Sound);
                 }
             }
         }
@@ -196,7 +245,7 @@ namespace Stride.Engine
             {
                 if (sound.Value != null)
                 {
-                    DetachSound(sound.Value);
+                    DetachSound(sound.Value.Sound);
                 }
             }
 

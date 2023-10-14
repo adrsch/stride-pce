@@ -91,6 +91,8 @@ namespace Stride.Core.Assets.Editor.Services
 
         public bool CacheAssemblyDocumentation([NotNull] Assembly assembly)
         {
+          //  if (assembly == null)
+            //    return false;
             // Can't process dynamic assemblies (they don't have a location)
             if (assembly.IsDynamic)
                 return false;

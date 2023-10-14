@@ -81,6 +81,17 @@ namespace Stride.Engine
         [DataMemberIgnore]
         public Dictionary<string, CommandInfo> Commands = new Dictionary<string, CommandInfo>();
 
+        // SEQ: Optimize
+        public Entity GetEntity(SeqId id)
+        {
+            foreach (Entity entity in Entities)
+            {
+                if (entity.SeqId == id)
+                    return entity;
+            }
+            return null;
+        }
+
         /// <summary>
         /// Updates the world transform of the scene.
         /// </summary>

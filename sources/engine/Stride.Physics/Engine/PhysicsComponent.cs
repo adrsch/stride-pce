@@ -54,6 +54,10 @@ namespace Stride.Engine
         [MemberCollection(NotNullItems = true)]
         public ColliderShapeCollection ColliderShapes { get; }
 
+        [DataMember(25)]
+        [DefaultValue(SurfaceType.Default)]
+        public SurfaceType SurfaceType { get; set; } = SurfaceType.Default;
+
         /// <summary>
         /// Gets or sets the collision group.
         /// </summary>

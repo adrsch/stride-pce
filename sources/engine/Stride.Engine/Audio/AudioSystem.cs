@@ -19,6 +19,8 @@ namespace Stride.Audio
         private static readonly object AudioEngineStaticLock = new object();
         private static AudioEngine audioEngineSingleton;
 
+        public AudioBusController BusController = new AudioBusController();
+
         /// <summary>
         /// Create an new instance of AudioSystem
         /// </summary>

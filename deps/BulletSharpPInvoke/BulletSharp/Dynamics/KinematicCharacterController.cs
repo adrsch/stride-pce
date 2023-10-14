@@ -14,6 +14,7 @@ namespace BulletSharp
         public Vector3 Point;
         public Vector3 Normal;
         public float HitFraction;
+        public CollisionObject HitCollisionObject;
     }
     public class KinematicCharacterController : ICharacterController, IDisposable
     {
@@ -426,6 +427,7 @@ namespace BulletSharp
                     res.HitFraction = callback.ClosestHitFraction;
                     res.Succeeded = true;
                     res.Point = callback.HitPointWorld;
+                    res.HitCollisionObject = callback.HitCollisionObject;
                 }
                 else
                 {

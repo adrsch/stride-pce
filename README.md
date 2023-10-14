@@ -3,6 +3,7 @@ This fork will get my custom scripting language SeqScript in it at some point. R
 Scenes and entities have commands attached to them in a lookup table.
 (I could make this an attribute for ease of use...)
 
+```
 x.Commands["foo"] = new CommandInfo
 {
     Params = new List<Type>(typeof(string)), // args[0]
@@ -10,13 +11,16 @@ x.Commands["foo"] = new CommandInfo
     Exec = async args => await bar((string)args[0], (string)args[1]),
     Help = "Help for the command",
 }
+```
 
 Scenes must be specified except for the root scene, which is implicit.
 
+```
 scene:command args;
 scene:entity:childentity:command args;
 commandOnRootScene args;
 entityInRootScene:command args;
+```
 
 ## Other changes:
 - A BulletSharp fork with a much nicer kinematic character controller and an API giving you way more control

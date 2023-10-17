@@ -183,7 +183,7 @@ namespace Stride.Audio
 
         public float GetPitch()
         {
-            var rand = (2 * Random.Shared.NextSingle() - 1) * PitchVariance;
+            var rand = (2 * Random.Shared.NextSingle() - 1) * PitchVariance + 1;
             return rand;
         }
 
@@ -296,6 +296,22 @@ namespace Stride.Audio
                         mediaReader.SpeedFactor = value;
                 }
                 Pitch = value;
+            }
+        }
+
+        private DSPSettings dspSettings;
+
+        public DSPSettings DSPSettings
+        {
+            get => dspSettings;
+            set
+            {
+                dspSettings = value;
+
+               // foreach (var instance in InstanceToListener)
+               // {
+                 //   instance.Key.SetupDSP(dspSettings);
+                //}
             }
         }
 

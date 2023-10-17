@@ -42,6 +42,7 @@ namespace Stride.Assets.Media
             {
                 // Get path to ffmpeg
                 var ffmpeg = ToolLocator.LocateTool("ffmpeg.exe")?.ToWindowsPath() ?? throw new AssetException("Failed to compile a sound asset, ffmpeg was not found.");
+                //var ffprobe = ToolLocator.LocateTool("ffprobe.exe")?.ToWindowsPath() ?? throw new AssetException("Failed to compile a sound asset, ffprobe was not found.");
 
                 // Get absolute path of asset source on disk
                 var assetDirectory = Parameters.Source.GetParent();
@@ -51,6 +52,11 @@ namespace Stride.Assets.Media
                 var tempFile = Path.GetTempFileName();
                 try
                 {
+                 //   var audioInfoCommand = "  -hide_banner -loglevel error" + // hide most log output
+                 //                          $" -i \"{assetSource.ToWindowsPath()}\"" + // input file
+                //                           "2>&1 | find \"Audio\"";
+                 //   var audioInfo = await ShellHelper.RunProcessAndGetOutputAsync(ffmpeg, commandLine, commandContext.Logger);
+
                     var channels = Parameters.Spatialized ? 1 : 2;
                     var commandLine = "  -hide_banner -loglevel error" + // hide most log output
                                       $" -i \"{assetSource.ToWindowsPath()}\"" + // input file

@@ -47,8 +47,6 @@ namespace Stride.Engine
     [ComponentCategory("Audio")]
     public sealed class AudioEmitterComponent : ActivableEntityComponent
     {
-        [DataMember]
-        public DSPSettings DSPSettings = new DSPSettings();
 
         /// <summary>
         /// Dictionary associating each SoundBase to a single soundController.
@@ -63,7 +61,6 @@ namespace Stride.Engine
                 var controller = SoundToController[info.Sound];
                 controller.Bus = info.Bus;
                 controller.Volume = info.Volume;
-                controller.DSPSettings = DSPSettings;
                 controller.Oneshot(info.Volume, info.PitchVariance);
             }
         }
@@ -75,7 +72,6 @@ namespace Stride.Engine
                 var controller = SoundToController[info.Sound];
                 controller.Bus = info.Bus;
                 controller.Volume = info.Volume;
-                controller.DSPSettings = DSPSettings;
                 if (controller.PlayState != PlayState.Playing)
                     controller.Play();
             }

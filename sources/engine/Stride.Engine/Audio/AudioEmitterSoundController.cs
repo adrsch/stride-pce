@@ -299,22 +299,6 @@ namespace Stride.Audio
             }
         }
 
-        private DSPSettings dspSettings;
-
-        public DSPSettings DSPSettings
-        {
-            get => dspSettings;
-            set
-            {
-                dspSettings = value;
-
-               // foreach (var instance in InstanceToListener)
-               // {
-                 //   instance.Key.SetupDSP(dspSettings);
-                //}
-            }
-        }
-
         /// <summary>
         /// Sets the range of the sound to play.
         /// </summary>

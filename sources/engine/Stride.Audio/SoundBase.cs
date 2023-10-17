@@ -23,7 +23,7 @@ namespace Stride.Audio
         /// </summary>
         /// <param name="engine">A valid AudioEngine.</param>
         /// <exception cref="ArgumentNullException">The engine argument is null.</exception>
-        internal void AttachEngine(AudioEngine engine)
+        public void AttachEngine(AudioEngine engine)
         {
             if (engine == null)
                 throw new ArgumentNullException(nameof(engine));
@@ -32,27 +32,27 @@ namespace Stride.Audio
         }
 
         [DataMemberIgnore]
-        internal AudioEngine AudioEngine { get; private set; }
+        public AudioEngine AudioEngine { get; private set; }
 
         /// <summary>
         /// Current instances of the SoundEffect.
         /// We need to keep track of them to stop and dispose them when the soundEffect is disposed.
         /// </summary>
         [DataMemberIgnore]
-        internal readonly List<SoundInstance> Instances = new List<SoundInstance>();
-        
-        internal int Channels { get; set; } = 2;
+        public readonly List<SoundInstance> Instances = new List<SoundInstance>();
+
+        public int Channels { get; set; } = 2;
         
         [DataMemberIgnore]
-        internal AudioEngineState EngineState => AudioEngine.State;
+        public AudioEngineState EngineState => AudioEngine.State;
 
-        internal int MaxPacketLength { get; set; }
+        public int MaxPacketLength { get; set; }
 
-        internal int NumberOfPackets { get; set; }
+        public int NumberOfPackets { get; set; }
 
-        internal int SampleRate { get; set; } = 44100;
+        public int SampleRate { get; set; } = 44100;
 
-        internal bool Spatialized { get; set; }
+        public bool Spatialized { get; set; }
 
         /// <summary>
         /// The number of SoundEffect Created so far. Used only to give a unique name to the SoundEffect.
@@ -72,7 +72,7 @@ namespace Stride.Audio
         /// <exception cref="ObjectDisposedException">The sound has already been disposed</exception>
         public abstract SoundInstance CreateInstance(AudioListener listener = null, bool useHrtf = false, float directionalFactor = 0.0f, HrtfEnvironment environment = HrtfEnvironment.Small);
 
-        internal void Attach(AudioEngine engine)
+        public void Attach(AudioEngine engine)
         {
             AttachEngine(engine);
 
@@ -87,7 +87,7 @@ namespace Stride.Audio
             return Channels;
         }
 
-        internal void CheckNotDisposed()
+        public void CheckNotDisposed()
         {
             if (IsDisposed)
                 throw new ObjectDisposedException("this");
@@ -96,7 +96,7 @@ namespace Stride.Audio
         /// <summary>
         /// Stop all registered instances of the <see cref="SoundBase"/>.
         /// </summary>
-        internal void StopAllInstances()
+        public void StopAllInstances()
         {
             foreach (var instance in Instances)
                 instance.Stop();
@@ -106,7 +106,7 @@ namespace Stride.Audio
         /// Stop all registered instances different from the provided main instance
         /// </summary>
         /// <param name="mainInstance">The main instance of the sound effect</param>
-        internal void StopConcurrentInstances(SoundInstance mainInstance)
+        public void StopConcurrentInstances(SoundInstance mainInstance)
         {
             foreach (var instance in Instances)
             {
@@ -119,7 +119,7 @@ namespace Stride.Audio
         /// Unregister a disposed Instance.
         /// </summary>
         /// <param name="instance"></param>
-        internal void UnregisterInstance(SoundInstance instance)
+        public void UnregisterInstance(SoundInstance instance)
         {
             if (!Instances.Remove(instance))
                 throw new AudioSystemInternalException("Tried to unregister soundEffectInstance while not contained in the instance list.");

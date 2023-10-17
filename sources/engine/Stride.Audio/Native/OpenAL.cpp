@@ -3,6 +3,7 @@
 
 #include "Common.h"
 
+//#if defined(WINDOWS_DESKTOP) || defined(UWP) || defined(WINDOWS_STORE) || defined(WINDOWS_PHONE) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS) || defined(IOS) || !defined(__clang__)
 #if defined(PLATFORM_LINUX) || defined(PLATFORM_MACOS) || defined(IOS) || !defined(__clang__)
 
 #include "../../../deps/NativePath/NativePath.h"

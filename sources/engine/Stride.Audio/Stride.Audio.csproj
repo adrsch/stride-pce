@@ -44,6 +44,8 @@
   <ItemGroup>
     <None Include="Native\XAudio2.cpp" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="SoLoudInterop" Version="1.0.0" />
+  </ItemGroup>
   <Import Project="$(StrideSdkTargets)" />
 </Project>

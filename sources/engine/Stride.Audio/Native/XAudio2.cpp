@@ -4,7 +4,7 @@
 #include "Common.h"
 
 #if defined(WINDOWS_DESKTOP) || defined(UWP) || defined(WINDOWS_STORE) || defined(WINDOWS_PHONE) || !defined(__clang__)
-
+//#if false
 #include "../../../deps/NativePath/NativePath.h"
 #include "../../../deps/NativePath/NativeThreading.h"
 #include "../../../deps/NativePath/NativeDynamicLinking.h"
@@ -1735,6 +1735,17 @@ extern "C" {
 
 			return res;
 		}
+
+		/*DLL_EXPORT_API void xnAudioSourceSetReverb(xnAudioSource* source, float reverbLevel, float lpfDirect, float lpfReverb, float* delayTimes)
+		{
+			if (source->dsp_settings_)
+			{
+				source->dsp_settings_->ReverbLevel = reverbLevel;
+				source->dsp_settings_->LPFDirectCoefficient = lpfDirect;
+				source->dsp_settings_->LPFReverbCoefficient = lpfReverb;
+				source->dsp_settings_->pDelayTimes = delayTimes;
+			}
+		}*/
 
 		DLL_EXPORT_API void xnAudioSourceDestroy(xnAudioSource* source)
 		{

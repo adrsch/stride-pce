@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Stride.Core;
 using Stride.Media;
+using static Stride.Audio.AudioLayer;
 
 namespace Stride.Audio
 {
@@ -142,6 +143,11 @@ namespace Stride.Audio
                 AudioLayer.SourceSetPan(Source, value);
             }
         }
+
+    //    public void SetupDSP(DSPSettings settings)
+      //  {
+        //    AudioLayer.SourceSetReverb(Source, settings.ReverbLevel, settings.LpfDirect, settings.LpfReverb, settings.DelayTimes);
+       // }
 
         /// <summary>
         /// The global volume at which the sound is played.

@@ -11,7 +11,7 @@ namespace Stride.Audio
     /// <summary>
     /// Wrapper around Celt
     /// </summary>
-    internal class Celt : IDisposable
+    public class Celt : IDisposable
     {
         public int SampleRate { get; set; }
 

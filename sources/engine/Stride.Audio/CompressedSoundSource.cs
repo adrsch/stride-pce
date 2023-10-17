@@ -10,12 +10,12 @@ using Stride.Media;
 
 namespace Stride.Audio
 {
-    internal sealed class CompressedSoundSource : DynamicSoundSource
+    public sealed class CompressedSoundSource : DynamicSoundSource
     {
         private const int SamplesPerBuffer = 32768;
         private const int MaxChannels = 2;
-        internal const int NumberOfBuffers = 4;
-        internal const int SamplesPerFrame = 512;
+        public const int NumberOfBuffers = 4;
+        public const int SamplesPerFrame = 512;
 
         private static UnmanagedArray<short> utilityBuffer = new UnmanagedArray<short>(SamplesPerBuffer * MaxChannels);
 

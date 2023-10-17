@@ -70,7 +70,7 @@ namespace Stride.Audio
         internal virtual void InitializeAudioEngine(AudioLayer.DeviceFlags flags)
         {
             AudioDevice = AudioLayer.Create(audioDevice.Name == "default" ? null : audioDevice.Name, flags);
-            if (AudioDevice.Ptr == IntPtr.Zero)
+            if (AudioDevice.Sl == null)
             {
                 State = AudioEngineState.Invalidated;
             }
@@ -83,7 +83,7 @@ namespace Stride.Audio
         /// </summary>
         internal void DestroyAudioEngine()
         {
-            if (AudioDevice.Ptr != IntPtr.Zero)
+            if (AudioDevice.Sl != null)
             {
                 AudioLayer.ListenerDestroy(DefaultListener.Listener);
                 AudioLayer.Destroy(AudioDevice);

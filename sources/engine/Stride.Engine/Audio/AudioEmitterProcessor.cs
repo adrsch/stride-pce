@@ -240,6 +240,7 @@ namespace Stride.Audio
                             instance.Pitch = controller.GetPitch();
                             instance.Apply3D(emitter);
                             instance.Play();
+                          //  instance.SetupDSP(controller.DSPSettings);
 
                             controller.FastInstances.Add(instance);
                         }

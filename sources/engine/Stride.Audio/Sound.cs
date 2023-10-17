@@ -22,16 +22,16 @@ namespace Stride.Audio
     [DataSerializer(typeof(SoundSerializer))]
     public sealed class Sound : SoundBase
     {
-        internal bool StreamFromDisk { get; set; }
+        public bool StreamFromDisk { get; set; }
 
-        internal string CompressedDataUrl { get; set; }
+        public string CompressedDataUrl { get; set; }
 
         [DataMemberIgnore]
-        internal AudioLayer.Buffer PreloadedBuffer;
+        public AudioLayer.Buffer PreloadedBuffer;
 
-        internal IVirtualFileProvider FileProvider;
+        public IVirtualFileProvider FileProvider;
 
-        internal int Samples { get; set; }
+        public int Samples { get; set; }
 
         /// <summary>
         /// Create a new sound effect instance of the sound effect. 
@@ -73,9 +73,9 @@ namespace Stride.Audio
             }
         }
 
-        internal void LoadSoundInMemory()
+        public void LoadSoundInMemory()
         {
-            if (PreloadedBuffer.Ptr != IntPtr.Zero) return;
+           // if (PreloadedBuffer.Ptr != IntPtr.Zero) return;
 
             using (var soundStream = FileProvider.OpenStream(CompressedDataUrl, VirtualFileMode.Open, VirtualFileAccess.Read, VirtualFileShare.Read, StreamFlags.Seekable))
             using (var decoder = new Celt(SampleRate, CompressedSoundSource.SamplesPerFrame, Channels, true))

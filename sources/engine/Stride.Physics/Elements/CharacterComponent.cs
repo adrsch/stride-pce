@@ -23,14 +23,31 @@ namespace Stride.Physics
         float margin;
         public float Margin
         {
-            get { return margin; } set {  margin = value;
+            get { return margin; }
+            set 
+            { 
+                margin = value;
                 if (ColliderShape != null)
                 {
                     ColliderShape.Margin = value;
                 }
             }
         }
-        
+
+        float addedMargin = 0.02f;
+        public float AddedMargin
+        {
+            get { return addedMargin; }
+            set
+            {
+                addedMargin = value;
+                if (KinematicCharacter != null)
+                {
+                    KinematicCharacter.SetAddedMargin(value);
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets if this character element max slope
         /// </summary>

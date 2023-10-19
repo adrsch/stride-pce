@@ -347,6 +347,16 @@ namespace BulletSharp
             m_maxPenetrationDepth = 0.2f;
         }
 
+        public float GetAddedMargin()
+        {
+            return m_addedMargin;
+        }
+
+        public void SetAddedMargin(float addedMargin)
+        {
+            m_addedMargin = addedMargin;
+        }
+
         public void SetConvexShape(PairCachingGhostObject ghostObject)
         {
             m_ghostObject = ghostObject;

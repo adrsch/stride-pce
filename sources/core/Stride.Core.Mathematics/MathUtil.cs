@@ -429,7 +429,7 @@ namespace Stride.Core.Mathematics
         public static float CriticalDamp(float from, float to, ref float vel, float smoothTime, float dt)
         {
             if (IsZero(smoothTime))
-                return from;
+                return to;
 
             float stiffness = 2f / smoothTime; // omega
 

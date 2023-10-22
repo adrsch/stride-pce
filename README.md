@@ -1,6 +1,6 @@
 This fork will get my custom scripting language SeqScript in it at some point. Right now it's game-side, not engine side, except some small bits. Or I could make it a separate extension. Not sure yet.
 
-Scenes and entities have commands attached to them in a lookup table.
+Scenes and entities have commands attached to them.
 (I could make this an attribute for ease of use...)
 
 ```
@@ -30,6 +30,7 @@ entityInRootScene:command args;
 - Editor camera speed uses a min and a max value set in GUI, instead of an array of hardcoded steps*. ~~User can set speed up/down keybinds in editor settings~~
 - Add a sort mode based on render group id #. Needs work if I'm going to bring it to main at some point
 - Audio volume is split into buses. Audio emitter component handles sound controllers automatically. Built in pitch variance.
+- ~~FBX importer lets you select which animation stack is imported~~
 
 *has actual conflicts with changes in the stride repo since I forked
 

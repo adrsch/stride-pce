@@ -59,6 +59,9 @@ namespace Stride.Physics
             }
         }
 
+        [DataMember(77)]
+        public bool AllowPush = true;
+
         /// <summary>
         /// Gets or sets the mass of this Rigidbody
         /// </summary>

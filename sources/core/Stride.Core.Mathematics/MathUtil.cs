@@ -428,6 +428,9 @@ namespace Stride.Core.Mathematics
         public static float CheapEXP(float x) => (1f + x + 0.48f * x * x + 0.235f * x * x * x);
         public static float CriticalDamp(float from, float to, ref float vel, float smoothTime, float dt)
         {
+            if (IsZero(smoothTime))
+                return from;
+
             float stiffness = 2f / smoothTime; // omega
 
             float exp = 1f / CheapEXP(stiffness * dt);

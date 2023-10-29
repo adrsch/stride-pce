@@ -609,6 +609,12 @@ namespace Stride.Core.Mathematics
             return (value & (alignment - 1)) == 0;
         }
 
+
+        public static int RoundToInt(float value)
+        {
+            return (value % 1 < 0.5) ? (int)MathF.Floor(value) : (int)MathF.Floor(value) + 1;
+        }
+
         /// <summary>
         /// Snaps a value to the nearest interval.
         /// </summary>

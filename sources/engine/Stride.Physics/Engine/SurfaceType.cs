@@ -18,5 +18,7 @@ namespace Stride.Engine
         Glass = 8,
         Stone = 9,
         Water = 10,
+        Snow = 11,
+        Ice = 12,
     }
 }

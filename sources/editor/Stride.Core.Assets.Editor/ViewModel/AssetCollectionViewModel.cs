@@ -582,6 +582,9 @@ namespace Stride.Core.Assets.Editor.ViewModel
                     var file = files[i];
                     bool inResourceFolder = directory.Package.Package.ResourceFolders.Any(x => file.FullPath.StartsWith(x.FullPath, StringComparison.Ordinal));
 
+                    // Disable this feature as it is annoying for me...
+                    continue;
+                    
                     if (inResourceFolder)
                         continue;
 

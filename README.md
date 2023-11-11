@@ -31,6 +31,7 @@ entityInRootScene:command args;
 - Add a sort mode based on render group id #. Needs work if I'm going to bring it to main at some point
 - Audio volume is split into buses. Audio emitter component handles sound controllers automatically. Built in pitch variance.
 - ~~FBX importer lets you select which animation stack is imported~~
+- No more popup asking if you want to copy to resources folder every time you import something
 
 *has actual conflicts with changes in the stride repo since I forked
 

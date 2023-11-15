@@ -22,8 +22,8 @@ namespace Stride.Engine
     {
         private static readonly Logger Log = GlobalLogger.GetLogger("SceneSystem");
 
-        private RenderContext renderContext;
-        private RenderDrawContext renderDrawContext;
+        public RenderContext renderContext;
+        public RenderDrawContext renderDrawContext;
 
         private int previousWidth;
         private int previousHeight;

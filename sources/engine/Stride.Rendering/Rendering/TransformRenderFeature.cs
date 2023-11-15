@@ -20,11 +20,12 @@ namespace Stride.Rendering
         internal ViewObjectPropertyKey<RenderModelViewInfo> RenderModelViewInfoKey;
 
         private ConstantBufferOffsetReference time; // TODO: Move this at a more global level so that it applies on everything? (i.e. RootEffectRenderFeature)
+        private ConstantBufferOffsetReference clock;
         private ConstantBufferOffsetReference view;
         private ConstantBufferOffsetReference world;
         private ConstantBufferOffsetReference worldInverse;
         private ConstantBufferOffsetReference camera;
-        
+
         private static readonly ProfilingKey ExtractKey = new ProfilingKey("TransformRenderFeature.Extract");
         private static readonly ProfilingKey PrepareKey = new ProfilingKey("TransformRenderFeature.Prepare");
 
@@ -47,6 +48,7 @@ namespace Stride.Rendering
             RenderModelObjectInfoKey = RootRenderFeature.RenderData.CreateObjectKey<RenderModelFrameInfo>();
             RenderModelViewInfoKey = RootRenderFeature.RenderData.CreateViewObjectKey<RenderModelViewInfo>();
 
+            clock = ((RootEffectRenderFeature)RootRenderFeature).CreateFrameCBufferOffsetSlot(GlobalKeys.Clock.Name);
             time = ((RootEffectRenderFeature)RootRenderFeature).CreateFrameCBufferOffsetSlot(GlobalKeys.Time.Name);
             view = ((RootEffectRenderFeature)RootRenderFeature).CreateViewCBufferOffsetSlot(TransformationKeys.View.Name);
             camera = ((RootEffectRenderFeature)RootRenderFeature).CreateViewCBufferOffsetSlot(CameraKeys.NearClipPlane.Name);
@@ -94,6 +96,7 @@ namespace Stride.Rendering
                 var perFrameTime = (PerFrameTime*)((byte*)mappedCB + timeOffset);
                 perFrameTime->Time = (float)Context.Time.Total.TotalSeconds;
                 perFrameTime->TimeStep = (float)Context.Time.Elapsed.TotalSeconds;
+                perFrameTime->Clock = (float)Context.Time.ClockTime;
             }
 
             // Update PerView (View, Proj, etc...)
@@ -214,6 +217,7 @@ namespace Stride.Rendering
         {
             public float Time;
             public float TimeStep;
+            public float Clock;
         }
 
         [StructLayout(LayoutKind.Sequential)]

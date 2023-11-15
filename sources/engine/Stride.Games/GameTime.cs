@@ -91,6 +91,9 @@ namespace Stride.Games
         /// <value>The time per frame.</value>
         public TimeSpan TimePerFrame { get; private set; }
 
+        // this is just the in game time... not setting that here, need it for global shaders however
+        public float ClockTime;
+
         /// <summary>
         /// Gets a value indicating whether the <see cref="FramePerSecond"/> and <see cref="TimePerFrame"/> were updated for this frame.
         /// </summary>

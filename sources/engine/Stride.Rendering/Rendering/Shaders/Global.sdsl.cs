@@ -20,5 +20,6 @@ namespace Stride.Rendering
     {
         public static readonly ValueParameterKey<float> Time = ParameterKeys.NewValue<float>();
         public static readonly ValueParameterKey<float> TimeStep = ParameterKeys.NewValue<float>();
+        public static readonly ValueParameterKey<float> Clock = ParameterKeys.NewValue<float>();
     }
 }

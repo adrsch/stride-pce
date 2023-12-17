@@ -100,20 +100,20 @@ namespace Stride.Audio
         {
             entity.Commands["oneshot"] = new CommandInfo
             {
-                Params = new List<Type> { typeof(string) },
+                Params = new Type[] { typeof(string) },
                 Exec = async args => component.Oneshot((string)args[0]),
                 Help = "Play a non-looping sfx"
             };
 
             entity.Commands["startsound"] = new CommandInfo
             {
-                Params = new List<Type> { typeof(string) },
+                Params = new Type[] { typeof(string) },
                 Exec = async args => component.Startsound((string)args[0]),
             };
 
             entity.Commands["stopsound"] = new CommandInfo
             {
-                Params = new List<Type> { typeof(string) },
+                Params = new Type[] { typeof(string) },
                 Exec = async args => component.Stopsound((string)args[0]),
             };
 

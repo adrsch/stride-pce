@@ -10,8 +10,8 @@ namespace Stride.Engine
 {
     public struct CommandInfo
     {
-        public List<Type> Params;
-        public List<Type> OptionalParams;
+        public Type[] Params;
+        public Type[] OptionalParams;
         public Func<object[], Task> Exec;
         public string Help;
     }

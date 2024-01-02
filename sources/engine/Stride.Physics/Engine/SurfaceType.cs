@@ -20,5 +20,6 @@ namespace Stride.Engine
         Water = 10,
         Snow = 11,
         Ice = 12,
+        Debris = 13,
     }
 }

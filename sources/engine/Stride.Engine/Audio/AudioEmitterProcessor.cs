@@ -199,6 +199,8 @@ namespace Stride.Audio
                         if (instanceListener.Key.Volume != controller.Volume) instanceListener.Key.Volume = controller.Volume; // ensure that instance volume is valid
                         if (instanceListener.Key.IsLooping != controller.IsLooping) instanceListener.Key.IsLooping = controller.IsLooping;
 
+                        instanceListener.Key.SpacialFactor = controller.SpacialFactor;
+
                         //Play if stopped
                         if (instanceListener.Key.PlayState != PlayState.Playing && controller.ShouldBePlayed)
                         {
@@ -238,6 +240,7 @@ namespace Stride.Audio
                             instance.bus = controller.Bus;
                             instance.Volume = controller.Volume;
                             instance.Pitch = controller.GetPitch();
+                            instance.SpacialFactor = controller.SpacialFactor;
                             instance.Apply3D(emitter);
                             instance.Play();
 

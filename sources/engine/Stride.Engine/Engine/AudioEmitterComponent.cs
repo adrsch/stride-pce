@@ -19,11 +19,15 @@ namespace Stride.Engine
         [DataMember]
         public Sound Sound;
         [DataMember]
+        public Sound Wet;
+        [DataMember]
         public float Volume = 1f;
         [DataMember]
         public AudioBus Bus = AudioBus.SFX;
         [DataMember]
         public float PitchVariance;
+        [DataMember]
+        public float SpatialFactor = 1f;
     }
     /// <summary>
     /// Component representing an audio emitter.
@@ -58,10 +62,33 @@ namespace Stride.Engine
         {
             if (Sounds.TryGetValue(soundName, out var info))
             {
-                var controller = SoundToController[info.Sound];
-                controller.Bus = info.Bus;
-                controller.Volume = info.Volume;
-                controller.Oneshot(info.Volume, info.PitchVariance);
+                if (info.Wet == null)
+                {
+                    var controller = SoundToController[info.Sound];
+                    controller.Bus = info.Bus;
+                    controller.Volume = info.Volume;
+                    controller.SpacialFactor = info.SpatialFactor;
+                    controller.Oneshot(info.Volume, info.PitchVariance);
+                }
+                else
+                {
+                    if (AudioBusController.Inst.Dry > 0)
+                    {
+                        var controller = SoundToController[info.Sound];
+                        controller.Bus = info.Bus;
+                        controller.Volume = info.Volume * AudioBusController.Inst.Dry;
+                        controller.SpacialFactor = info.SpatialFactor;
+                        controller.Oneshot(info.Volume, info.PitchVariance);
+                    }
+                    if (AudioBusController.Inst.Wet > 0)
+                    {
+                        var controller = SoundToController[info.Wet];
+                        controller.Bus = info.Bus;
+                        controller.Volume = info.Volume * AudioBusController.Inst.Wet;
+                        controller.SpacialFactor = info.SpatialFactor;
+                        controller.Oneshot(info.Volume, info.PitchVariance);
+                    }
+                }
             }
         }
 
@@ -69,11 +96,35 @@ namespace Stride.Engine
         {
             if (Sounds.TryGetValue(soundName, out var info))
             {
-                var controller = SoundToController[info.Sound];
-                controller.Bus = info.Bus;
-                controller.Volume = info.Volume;
-                if (controller.PlayState != PlayState.Playing)
-                    controller.Play();
+                if (info.Wet == null)
+                {
+                    var controller = SoundToController[info.Sound];
+                    controller.Bus = info.Bus;
+                    controller.Volume = info.Volume;
+                    controller.SpacialFactor = info.SpatialFactor;
+                    if (controller.PlayState != PlayState.Playing)
+                        controller.Play();
+                }
+                else
+                {
+                    {
+                        var controller = SoundToController[info.Sound];
+                        controller.Bus = info.Bus;
+                        controller.SpacialFactor = info.SpatialFactor;
+                        controller.Volume = info.Volume * AudioBusController.Inst.Dry;
+                        if (controller.PlayState != PlayState.Playing)
+                            controller.Play();
+                    }
+                    {
+
+                        var controller = SoundToController[info.Wet];
+                        controller.Bus = info.Bus;
+                        controller.SpacialFactor = info.SpatialFactor;
+                        controller.Volume = info.Volume * AudioBusController.Inst.Wet;
+                        if (controller.PlayState != PlayState.Playing)
+                            controller.Play();
+                    }
+                }
             }
         }
 
@@ -81,9 +132,17 @@ namespace Stride.Engine
         {
             if (Sounds.TryGetValue(soundName, out var info))
             {
-                var controller = SoundToController[info.Sound];
-                if (controller.PlayState != PlayState.Playing)
-                    controller.Stop();
+                {
+                    var controller = SoundToController[info.Sound];
+                 //   if (controller.PlayState != PlayState.Playing)
+                        controller.Stop();
+                }
+                if (info.Wet != null)
+                {
+                    var controller = SoundToController[info.Sound];
+                  //  if (controller.PlayState != PlayState.Playing)
+                        controller.Stop();
+                }
             }
         }
 
@@ -235,6 +294,10 @@ namespace Stride.Engine
                 if (sound.Value != null)
                 {
                     AttachSound(sound.Value.Sound);
+                    if (sound.Value.Wet != null)
+                    {
+                        AttachSound(sound.Value.Wet);
+                    }
                 }
             }
         }
@@ -246,6 +309,10 @@ namespace Stride.Engine
                 if (sound.Value != null)
                 {
                     DetachSound(sound.Value.Sound);
+                    if (sound.Value.Wet != null)
+                    {
+                        DetachSound(sound.Value.Wet);
+                    }
                 }
             }
 

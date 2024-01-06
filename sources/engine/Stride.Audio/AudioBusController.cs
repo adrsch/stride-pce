@@ -65,5 +65,18 @@ namespace Stride.Audio
             UIVolume = v;
             UIChanged?.Invoke(MasterVolume * UIVolume);
         }
+        
+        public float Dry = 1f;
+        public float Wet = 0f;
+
+        public void SetDry(float v)
+        {
+            Dry = v;
+        }
+
+        public void SetWet(float v)
+        {
+            Wet = v;
+        }
     }
 }

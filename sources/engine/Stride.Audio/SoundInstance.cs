@@ -188,6 +188,8 @@ namespace Stride.Audio
             return await soundSource.ReadyToPlay.Task;
         }
 
+        public float SpacialFactor = 1f;
+
         /// <summary>
         /// Applies 3D positioning to the sound.
         /// More precisely adjust the channel volumes and pitch of the sound,
@@ -211,7 +213,18 @@ namespace Stride.Audio
             if (emitter == null)
                 throw new ArgumentNullException(nameof(emitter));
 
-            emitter.Apply3D(Source);
+            if (SpacialFactor == 1)
+            {
+                emitter.Apply3D(Source);
+            }
+            else if (SpacialFactor == 0)
+            {
+                emitter.Apply2D(Source, Listener);
+            }
+            else
+            {
+                emitter.Apply3DSpacialFactor(Source, SpacialFactor, Listener.Position);
+            }
         }
 
         /// <summary>

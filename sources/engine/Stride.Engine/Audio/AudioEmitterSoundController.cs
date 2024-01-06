@@ -187,6 +187,8 @@ namespace Stride.Audio
             return rand;
         }
 
+        public float SpacialFactor = 1f;
+
         /// <summary>
         /// Indicate the <see cref="AudioListenerProcessor"/> if the controller's sound instances need to be played.
         /// This variable is need because <see cref="Play"/> is asynchronous and actually starts playing only on next system update.

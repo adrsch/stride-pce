@@ -95,9 +95,29 @@ namespace Stride.Audio
             Up = new Vector3(0, 1, 0);
         }
 
+        internal void Apply2D(AudioLayer.Source source, AudioListener listener)
+        {
+            EffectiveVelocity = listener.Velocity;
+            forward = listener.Forward;
+            up = listener.Up;
+            AudioLayer.SourcePush3D(source, ref listener.Position, ref forward, ref up, ref EffectiveVelocity, ref listener.WorldTransform);
+        }
+
         internal void Apply3D(AudioLayer.Source source)
         {
             AudioLayer.SourcePush3D(source, ref Position, ref forward, ref up, ref Velocity, ref WorldTransform);
+        }
+
+        Vector3 EffectivePosition;
+        Matrix EffectiveTransform;
+        Vector3 EffectiveVelocity;
+        internal void Apply3DSpacialFactor(AudioLayer.Source source, float spacialFactor, Vector3 listenerPosition)
+        {
+            EffectivePosition = Vector3.Lerp(listenerPosition, Position, spacialFactor);
+            EffectiveTransform = WorldTransform;
+            EffectiveTransform.TranslationVector = EffectivePosition;
+            //EffectiveVelocity = Velocity * spacialFactor;
+            AudioLayer.SourcePush3D(source, ref EffectivePosition, ref forward, ref up, ref EffectiveVelocity, ref EffectiveTransform);
         }
     }
 }

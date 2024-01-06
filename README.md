@@ -23,15 +23,17 @@ entityInRootScene:command args;
 ```
 
 ## Other changes:
-- A BulletSharp fork with a much nicer kinematic character controller and an API giving you way more control
-- Misc. quality of life things, some from Focus Engine
+- A BulletSharp fork with a much nicer kinematic character controller and an API giving you way more control.
+- Misc. quality of life things, some from Focus Engine.
 - ~~Default gravity can be set in GameSettings~~
 - ~~FBX importer bug fix~~
 - Editor camera speed uses a min and a max value set in GUI, instead of an array of hardcoded steps*. ~~User can set speed up/down keybinds in editor settings~~
-- Add a sort mode based on render group id #. Needs work if I'm going to bring it to main at some point
+- Add a sort mode based on render group id #. Needs work if I'm going to bring it to main at some point.
 - Audio volume is split into buses. Audio emitter component handles sound controllers automatically. Built in pitch variance.
+- Set the strength of spacial effects for each sound in the audio emitter component.
+- Support for simple baked reverb effects.
 - ~~FBX importer lets you select which animation stack is imported~~
-- No more popup asking if you want to copy to resources folder every time you import something
+- No more popup asking if you want to copy to resources folder every time you import something.
 
 *has actual conflicts with changes in the stride repo since I forked
 

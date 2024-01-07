@@ -78,7 +78,7 @@ namespace Stride.Engine
                         controller.Bus = info.Bus;
                         controller.Volume = info.Volume * AudioBusController.Inst.Dry;
                         controller.SpacialFactor = info.SpatialFactor;
-                        controller.Oneshot(info.Volume, info.PitchVariance);
+                        controller.Oneshot(info.Volume * AudioBusController.Inst.Dry, info.PitchVariance);
                     }
                     if (AudioBusController.Inst.Wet > 0)
                     {
@@ -86,7 +86,7 @@ namespace Stride.Engine
                         controller.Bus = info.Bus;
                         controller.Volume = info.Volume * AudioBusController.Inst.Wet;
                         controller.SpacialFactor = info.SpatialFactor;
-                        controller.Oneshot(info.Volume, info.PitchVariance);
+                        controller.Oneshot(info.Volume * AudioBusController.Inst.Wet, info.PitchVariance);
                     }
                 }
             }

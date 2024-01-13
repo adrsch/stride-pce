@@ -34,6 +34,8 @@ entityInRootScene:command args;
 - Support for simple baked reverb effects.
 - ~~FBX importer lets you select which animation stack is imported~~
 - No more popup asking if you want to copy to resources folder every time you import something.
+- Lights have a render group property, and will only be shown if the group is included in the render feature mask.
+- Skybox is blended from 2 textures
 
 *has actual conflicts with changes in the stride repo since I forked
 

@@ -13,6 +13,8 @@ namespace Stride.Rendering.Lights
         public Matrix WorldMatrix;
         public float Intensity;
 
+        public RenderGroup RenderGroup;
+
         /// <summary>
         /// Gets the light position in World-Space (computed by the `LightProcessor`) (readonly field). See remarks.
         /// </summary>

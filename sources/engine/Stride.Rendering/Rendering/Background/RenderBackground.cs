@@ -9,6 +9,8 @@ namespace Stride.Rendering.Background
     {
         public bool Is2D;
         public Texture Texture;
+        public Texture TextureB;
+        public float Mix;
         public float Intensity;
         public Quaternion Rotation;
     }

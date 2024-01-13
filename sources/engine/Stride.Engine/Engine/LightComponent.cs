@@ -7,6 +7,7 @@ using Stride.Core.Annotations;
 using Stride.Core.Mathematics;
 using Stride.Engine.Design;
 using Stride.Graphics;
+using Stride.Rendering;
 using Stride.Rendering.Lights;
 
 namespace Stride.Engine
@@ -51,5 +52,7 @@ namespace Stride.Engine
         [DataMember(30)]
         [DefaultValue(1.0f)]
         public float Intensity { get; set; }
+
+        public RenderGroup RenderGroup { get; set; }
     }
 }

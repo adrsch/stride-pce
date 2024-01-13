@@ -59,6 +59,8 @@ namespace Stride.Rendering.Background
                     // Select the first active background
                     renderBackground.Is2D = backgroundComponent.Is2D;
                     renderBackground.Texture = backgroundComponent.Texture;
+                    renderBackground.TextureB = backgroundComponent.TextureB;
+                    renderBackground.Mix = backgroundComponent.Mix;
                     renderBackground.Intensity = backgroundComponent.Intensity;
                     renderBackground.RenderGroup = backgroundComponent.RenderGroup;
                     renderBackground.Rotation = Quaternion.RotationMatrix(backgroundComponent.Entity.Transform.WorldMatrix);

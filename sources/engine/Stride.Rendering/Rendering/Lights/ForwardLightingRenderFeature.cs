@@ -571,11 +571,12 @@ namespace Stride.Rendering.Lights
                     // TODO: New mechanism for light selection (probably in ForwardLighting configuration)
                     //       Light should probably have their own LightGroup (separate from RenderGroup)
                     // If light is not part of the culling mask group, we can skip it
-                    //var entityLightMask = (RenderGroupMask)(1 << (int)light.Entity.Group);
-                    //if ((entityLightMask & sceneCullingMask) == 0 && (light.CullingMask & sceneCullingMask) == 0)
-                    //{
-                    //    continue;
-                    //}
+                    var entityLightMask = (RenderGroupMask)(1 << (int)light.RenderGroup);
+                    // if ((entityLightMask & sceneCullingMask) == 0 && (light.CullingMask & sceneCullingMask) == 0)
+                    if ((entityLightMask & sceneCullingMask) == 0 )
+                    {
+                        continue;
+                    }
 
                     // If light is not in the frustum, we can skip it
                     var directLight = light.Type as IDirectLight;

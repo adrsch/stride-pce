@@ -35,6 +35,7 @@ namespace Stride.Rendering.Background
             {
                 var renderBackground = (RenderBackground)renderObject;
                 Context.StreamingManager?.StreamResources(renderBackground.Texture, StreamingOptions.LoadAtOnce);
+                Context.StreamingManager?.StreamResources(renderBackground.TextureB, StreamingOptions.LoadAtOnce);
             }
         }
 
@@ -108,6 +109,7 @@ namespace Stride.Rendering.Background
                 backgroundCubemapEffect.UpdateEffect(graphicsDevice);
                 spriteBatch.Begin(context.GraphicsContext, SpriteSortMode.FrontToBack, BlendStates.Opaque, graphicsDevice.SamplerStates.LinearClamp, DepthStencilStates.DepthRead, null, backgroundCubemapEffect);
                 spriteBatch.Parameters.Set(BackgroundCubemapShaderKeys.Cubemap, renderBackground.Texture);
+
             }
             else
             {

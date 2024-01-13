@@ -38,6 +38,11 @@ namespace Stride.Engine
         [Display("Texture")]
         public Texture Texture { get; set; }
 
+        [DataMember(11)]
+        public Texture TextureB;
+        [DataMember(12)]
+        public float Mix;
+
         /// <summary>
         /// Gets or sets the intensity.
         /// </summary>

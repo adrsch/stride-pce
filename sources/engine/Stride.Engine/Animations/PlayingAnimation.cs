@@ -13,14 +13,14 @@ namespace Stride.Animations
         internal AnimationClipEvaluator Evaluator;
         internal TaskCompletionSource<bool> EndedTCS;
 
-        internal PlayingAnimation(string name, AnimationClip clip) : this()
+        public PlayingAnimation(string name, AnimationClip clip) : this()
         {
             Name = name;
             Clip = clip;
             RepeatMode = Clip.RepeatMode;
         }
 
-        internal PlayingAnimation()
+        public PlayingAnimation()
         {
             Enabled = true;
             TimeFactor = 1.0f;
